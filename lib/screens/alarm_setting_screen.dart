@@ -3,6 +3,8 @@ import 'package:alarm_app/widgets/alarm_setting_widgets/alarm_period_input.dart'
 import 'package:alarm_app/widgets/alarm_setting_widgets/alarm_recording_input.dart';
 import 'package:alarm_app/widgets/alarm_setting_widgets/alarm_time_input.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_sound/flutter_sound.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class AlarmSettingScreen extends StatefulWidget {
   final String takerName;
@@ -27,6 +29,73 @@ class AlarmSettingScreen extends StatefulWidget {
 
 class _AlarmSettingScreenState extends State<AlarmSettingScreen> {
   final TextEditingController controller = TextEditingController();
+  FlutterSoundRecorder? _recorder;
+  FlutterSoundPlayer? _player;
+  String? _recordedFilePath;
+
+  @override
+  void initState() {
+    super.initState();
+    _recorder = FlutterSoundRecorder();
+    _player = FlutterSoundPlayer();
+    _recordedFilePath = '';
+    _init();
+  }
+
+  Future<void> _init() async {
+    final status = await Permission.microphone.request();
+    if (status != PermissionStatus.granted) {
+      throw RecordingPermissionException('마이크 권한이 필요합니다.');
+    }
+    await _recorder!.openRecorder();
+  }
+
+  Future<void> _startRecording() async {
+    await _recorder!.startRecorder(toFile: 'myRecording.aac');
+    setState(() {
+      widget.isRecording = true;
+    });
+  }
+
+  Future<void> _stopRecording() async {
+    final path = await _recorder!.stopRecorder();
+    setState(() {
+      widget.isRecording = false;
+      _recordedFilePath = path;
+    });
+  }
+
+  Future<void> _startPlayer() async {
+    if (_recordedFilePath == '') {
+      return;
+    }
+    await _player!.openPlayer();
+    await _player!.startPlayer(
+      fromURI: _recordedFilePath,
+      whenFinished: () {
+        _stopPlayer();
+      },
+    );
+    setState(() {
+      widget.isPlaying = true;
+    });
+  }
+
+  Future<void> _stopPlayer() async {
+    await _player!.stopPlayer();
+    setState(() {
+      widget.isPlaying = false;
+    });
+  }
+
+  @override
+  void dispose() {
+    _recorder!.closeRecorder();
+    _recorder = null;
+    _player!.closePlayer();
+    _player = null;
+    super.dispose();
+  }
 
   setAlarmName(String name) {
     setState(() {
@@ -38,8 +107,6 @@ class _AlarmSettingScreenState extends State<AlarmSettingScreen> {
     setState(() {
       widget.alarmTime = time;
     });
-
-    print(widget.alarmTime);
   }
 
   setAlarmPeriod(String day) {
@@ -47,33 +114,6 @@ class _AlarmSettingScreenState extends State<AlarmSettingScreen> {
       widget.alarmPeriod.contains(day)
           ? widget.alarmPeriod.remove(day)
           : widget.alarmPeriod.add(day);
-    });
-  }
-
-  setIsRecording() {
-    setState(() {
-      if (widget.isRecording) {
-        // 녹음 중지 logic
-      } else {
-        // 녹음 시작 logic
-      }
-
-      widget.isRecording = !widget.isRecording;
-    });
-  }
-
-  setIsPlaying() {
-    setState(() {
-      if (widget.isPlaying) {
-        // 재생 중지 logic
-      } else {
-        // 재생 시작 logic
-        if (widget.isRecording) {
-          return;
-        }
-      }
-
-      widget.isPlaying = !widget.isPlaying;
     });
   }
 
@@ -122,10 +162,14 @@ class _AlarmSettingScreenState extends State<AlarmSettingScreen> {
                 alarmPeriod: widget.alarmPeriod,
                 setAlarmPeriod: setAlarmPeriod),
             AlarmRecordingInput(
-                isRecording: widget.isRecording,
-                isPlaying: widget.isPlaying,
-                setIsRecording: setIsRecording,
-                setIsPlaying: setIsPlaying),
+              isRecording: widget.isRecording,
+              isPlaying: widget.isPlaying,
+              onStartRecord: _startRecording,
+              onStopRecord: _stopRecording,
+              onStartPlay: _startPlayer,
+              onStopPlay: _stopPlayer,
+              recordedFilePath: _recordedFilePath,
+            ),
             const SizedBox(
               height: 20.0,
             ),

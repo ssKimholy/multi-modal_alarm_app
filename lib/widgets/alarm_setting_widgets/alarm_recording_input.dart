@@ -3,15 +3,21 @@ import 'package:flutter/material.dart';
 class AlarmRecordingInput extends StatelessWidget {
   final bool isRecording;
   final bool isPlaying;
-  final Function setIsRecording;
-  final Function setIsPlaying;
+  final String? recordedFilePath;
+  final Function onStartRecord;
+  final Function onStopRecord;
+  final Function onStartPlay;
+  final Function onStopPlay;
 
   const AlarmRecordingInput(
       {super.key,
       required this.isRecording,
       required this.isPlaying,
-      required this.setIsRecording,
-      required this.setIsPlaying});
+      required this.onStartRecord,
+      required this.onStopRecord,
+      required this.onStartPlay,
+      required this.onStopPlay,
+      required this.recordedFilePath});
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +51,7 @@ class AlarmRecordingInput extends StatelessWidget {
                       horizontal: 8.0, vertical: 7.0),
                   child: GestureDetector(
                       onTap: () {
-                        setIsRecording();
+                        isRecording ? onStopRecord() : onStartRecord();
                       },
                       child: isRecording
                           ? const Icon(
@@ -68,7 +74,7 @@ class AlarmRecordingInput extends StatelessWidget {
                       horizontal: 8.0, vertical: 7.0),
                   child: GestureDetector(
                       onTap: () {
-                        setIsPlaying();
+                        isPlaying ? onStopPlay() : onStartPlay();
                       },
                       child: isPlaying
                           ? const Icon(Icons.pause,
@@ -88,10 +94,12 @@ class AlarmRecordingInput extends StatelessWidget {
             decoration: BoxDecoration(
                 color: const Color(0x0fa8b1ac),
                 borderRadius: BorderRadius.circular(12.0)),
-            child: const Text(
+            child: Text(
               // 녹음 여부에 따라 텍스트 변환
-              '음성 녹음을 기다리는 중 입니다.',
-              style: TextStyle(
+              recordedFilePath != ''
+                  ? "음성 녹음이 완료되었습니다. 음성을 확인해보세요."
+                  : '음성 녹음을 기다리는 중 입니다.',
+              style: const TextStyle(
                   color: Color(0xff898585),
                   fontFamily: 'Noto_Sans_KR',
                   fontSize: 16,

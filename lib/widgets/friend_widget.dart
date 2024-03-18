@@ -68,6 +68,9 @@ class _FriendWidgetState extends State<FriendWidget> {
                 borderRadius: BorderRadius.circular(6),
               ),
               child: GestureDetector(
+                onTap: () {
+                  // 해당인에게 설정한 알람 보여주는 logic
+                },
                 child: const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

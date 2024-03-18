@@ -90,19 +90,19 @@ class AlarmRecordingInput extends StatelessWidget {
           ),
           Container(
             padding:
-                const EdgeInsets.symmetric(horizontal: 60.0, vertical: 30.0),
+                const EdgeInsets.symmetric(horizontal: 60.0, vertical: 20.0),
             decoration: BoxDecoration(
                 color: const Color(0x0fa8b1ac),
                 borderRadius: BorderRadius.circular(12.0)),
             child: Text(
               // 녹음 여부에 따라 텍스트 변환
               recordedFilePath != ''
-                  ? "음성 녹음이 완료되었습니다. 음성을 확인해보세요."
+                  ? "음성 녹음이 완료되었습니다. \n음성을 확인해보세요."
                   : '음성 녹음을 기다리는 중 입니다.',
               style: const TextStyle(
                   color: Color(0xff898585),
                   fontFamily: 'Noto_Sans_KR',
-                  fontSize: 16,
+                  fontSize: 14,
                   fontWeight: FontWeight.w600),
             ),
           )

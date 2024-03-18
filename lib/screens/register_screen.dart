@@ -5,9 +5,14 @@ class RegisterScreen extends StatefulWidget {
   late String email;
   late String password;
   late String nickName;
+  late String phoneNumber;
 
   RegisterScreen(
-      {super.key, this.email = '', this.password = '', this.nickName = ''});
+      {super.key,
+      this.email = '',
+      this.password = '',
+      this.nickName = '',
+      this.phoneNumber = ''});
 
   @override
   State<RegisterScreen> createState() => _RegisterScreenState();
@@ -17,6 +22,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController nicknameController = TextEditingController();
+  final TextEditingController phoneNumberController = TextEditingController();
 
   setEmail(String email) {
     setState(() {
@@ -33,6 +39,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
   setNickname(String nickname) {
     setState(() {
       widget.nickName = nickname;
+    });
+  }
+
+  setPhoneNumber(String number) {
+    setState(() {
+      widget.phoneNumber = number;
     });
   }
 
@@ -99,7 +111,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   hintText: '닉네임 입력',
                   onText: setNickname),
               const SizedBox(
-                height: 210.0,
+                height: 35.0,
+              ),
+              UserInputWidget(
+                  controller: phoneNumberController,
+                  description: '전화번호',
+                  hintText: '전화번호 입력',
+                  onText: setPhoneNumber),
+              const SizedBox(
+                height: 90.0,
               ),
               GestureDetector(
                 onTap: () {

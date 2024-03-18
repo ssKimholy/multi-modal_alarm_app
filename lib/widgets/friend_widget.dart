@@ -57,7 +57,38 @@ class _FriendWidgetState extends State<FriendWidget> {
         children: [
           Row(mainAxisAlignment: MainAxisAlignment.end, children: [
             Container(
-              width: 110,
+              alignment: Alignment.center,
+              width: 100,
+              height: 28,
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: const Color(0xff3AD277),
+                  width: 1,
+                ),
+                borderRadius: BorderRadius.circular(6),
+              ),
+              child: GestureDetector(
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      '설정한 알람 보기',
+                      style: TextStyle(
+                          color: Color(0xff3AD277),
+                          fontFamily: 'Noto_Sans_KR',
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500),
+                    )
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(
+              width: 20.0,
+            ),
+            Container(
+              alignment: Alignment.center,
+              width: 100,
               height: 28,
               decoration: BoxDecoration(
                 border: Border.all(
@@ -69,9 +100,6 @@ class _FriendWidgetState extends State<FriendWidget> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const SizedBox(
-                    width: 10.0,
-                  ),
                   GestureDetector(
                     onTap: () {
                       Navigator.push(
@@ -104,7 +132,7 @@ class _FriendWidgetState extends State<FriendWidget> {
             ),
             const SizedBox(
               width: 30.0,
-            )
+            ),
           ]),
         ],
       ),

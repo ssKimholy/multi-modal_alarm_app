@@ -13,6 +13,7 @@ class AlarmSettingScreen extends StatefulWidget {
   late List<String> alarmPeriod = [];
   late bool isRecording;
   late bool isPlaying;
+  late String audioName;
 
   AlarmSettingScreen({
     super.key,
@@ -21,6 +22,7 @@ class AlarmSettingScreen extends StatefulWidget {
     this.alarmTime = '',
     this.isRecording = false,
     this.isPlaying = false,
+    this.audioName = '',
   });
 
   @override
@@ -29,6 +31,7 @@ class AlarmSettingScreen extends StatefulWidget {
 
 class _AlarmSettingScreenState extends State<AlarmSettingScreen> {
   final TextEditingController controller = TextEditingController();
+  final TextEditingController audioNameController = TextEditingController();
   FlutterSoundRecorder? _recorder;
   FlutterSoundPlayer? _player;
   String? _recordedFilePath;
@@ -62,6 +65,92 @@ class _AlarmSettingScreenState extends State<AlarmSettingScreen> {
     setState(() {
       widget.isRecording = false;
       _recordedFilePath = path;
+      showDialog(
+        context: context,
+        builder: (context) {
+          return Dialog(
+            child: Container(
+              padding:
+                  const EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
+              width: 150,
+              height: 150,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    '음성 녹음본의 이름을 설정해주세요.',
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontFamily: 'Noto_Sans_KR',
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500),
+                  ),
+                  const SizedBox(
+                    height: 10.0,
+                  ),
+                  TextField(
+                    controller: audioNameController,
+                    decoration: InputDecoration(
+                      contentPadding: const EdgeInsets.symmetric(
+                          vertical: 0.0, horizontal: 12.0),
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(6),
+                          borderSide: BorderSide(
+                              color: const Color(0xff898585).withOpacity(0.2),
+                              style: BorderStyle.solid)),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: const Color(0xff898585).withOpacity(0.2),
+                          width: 1.0,
+                        ),
+                      ),
+                      hintText: '음성의 이름을 입력하세요.',
+                      hintStyle: TextStyle(
+                          color: const Color(0xff898585).withOpacity(0.6),
+                          fontFamily: 'Noto_Sans_KR',
+                          fontSize: 14,
+                          fontWeight: FontWeight.w300),
+                    ),
+                    onSubmitted: (String value) {
+                      setAudioName(value);
+                    },
+                  ),
+                  const SizedBox(
+                    height: 10.0,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: Container(
+                          alignment: Alignment.center,
+                          width: 50,
+                          height: 30,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8.0),
+                            color: const Color(0xff3AD277),
+                          ),
+                          child: const Text(
+                            '완료',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontFamily: 'Noto_Sans_KR',
+                                fontSize: 12,
+                                fontWeight: FontWeight.w500),
+                          ),
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            ),
+          );
+        },
+      );
     });
   }
 
@@ -114,6 +203,12 @@ class _AlarmSettingScreenState extends State<AlarmSettingScreen> {
       widget.alarmPeriod.contains(day)
           ? widget.alarmPeriod.remove(day)
           : widget.alarmPeriod.add(day);
+    });
+  }
+
+  setAudioName(String name) {
+    setState(() {
+      widget.audioName = name;
     });
   }
 

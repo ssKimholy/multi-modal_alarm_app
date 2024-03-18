@@ -16,42 +16,42 @@ class AlarmPageScreen extends StatelessWidget {
         alarmPeriod: ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'],
         isNew: false,
         settingTime: DateTimeUtils.formatCurrentTime(),
-        profile: Profile('이경영', 'assets/images/leeG.svg')),
+        profile: Profile('이경영', 'assets/images/svg/leeG.svg')),
     Alarm(
         alarmName: '혈압 재기',
         alarmTime: '07:30',
         alarmPeriod: ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'],
         isNew: true,
         settingTime: DateTimeUtils.formatCurrentTime(),
-        profile: Profile('허은아', 'assets/images/huhE.svg')),
+        profile: Profile('허은아', 'assets/images/svg/huhE.svg')),
     Alarm(
         alarmName: '비타민 먹기',
         alarmTime: '12:00',
         alarmPeriod: ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'],
         isNew: false,
         settingTime: DateTimeUtils.formatCurrentTime(),
-        profile: Profile('허은아', 'assets/images/huhE.svg')),
+        profile: Profile('허은아', 'assets/images/svg/huhE.svg')),
     Alarm(
         alarmName: '목요일 심리상담',
         alarmTime: '15:00',
         alarmPeriod: ['thu'],
         isNew: false,
         settingTime: DateTimeUtils.formatCurrentTime(),
-        profile: Profile('오은영', 'assets/images/ohE.svg')),
+        profile: Profile('오은영', 'assets/images/svg/ohE.svg')),
     Alarm(
         alarmName: '혈압 재기',
         alarmTime: '19:00',
         alarmPeriod: ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'],
         isNew: false,
         settingTime: DateTimeUtils.formatCurrentTime(),
-        profile: Profile('김경영', 'assets/images/kimG.svg')),
+        profile: Profile('김경영', 'assets/images/svg/kimG.svg')),
     Alarm(
         alarmName: 'ㄱㄱ',
         alarmTime: '21:00',
         alarmPeriod: ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'],
         isNew: false,
         settingTime: DateTimeUtils.formatCurrentTime(),
-        profile: Profile('김경영', 'assets/images/kimG.svg')),
+        profile: Profile('김경영', 'assets/images/svg/kimG.svg')),
   ];
 
   AlarmPageScreen({super.key});

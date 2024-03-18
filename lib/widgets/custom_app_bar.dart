@@ -34,7 +34,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           Container(
             margin: EdgeInsets.only(right: marginVar),
             child: SvgPicture.asset(
-              'assets/images/app_logo.svg',
+              'assets/images/svg/app_logo.svg',
               width: 40,
               height: 40,
             ),
@@ -42,7 +42,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: SvgPicture.asset(
-              'assets/images/profile_button.svg',
+              'assets/images/svg/profile_button.svg',
               width: 36,
               height: 36,
             ),

@@ -7,8 +7,11 @@ class AlarmTimeInput extends StatelessWidget {
   final String alarmTime;
   final Function(String) setAlarmTime;
 
-  const AlarmTimeInput(
-      {super.key, required this.alarmTime, required this.setAlarmTime});
+  const AlarmTimeInput({
+    super.key,
+    required this.alarmTime,
+    required this.setAlarmTime,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -28,78 +31,14 @@ class AlarmTimeInput extends StatelessWidget {
                 fontWeight: FontWeight.w500,
               ),
             ),
-            const SizedBox(
-              height: 10.0,
-            ),
             Padding(
               padding:
                   const EdgeInsets.symmetric(horizontal: 10.0, vertical: 3.0),
               child: Center(
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: (alarmTime != '')
-                        ? const Color(0xff3AD277).withOpacity(0.5)
-                        : const Color(0xff898585).withOpacity(0.2),
-                    borderRadius: BorderRadius.circular(7.0),
-                  ),
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 8.0, vertical: 7.0),
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          PageRouteBuilder(
-                              opaque: false,
-                              pageBuilder:
-                                  (context, animation, secondaryAnimation) {
-                                return AccurateTimeSetting(
-                                  setAlarmTime: setAlarmTime,
-                                );
-                              },
-                              transitionsBuilder: (context, animation,
-                                  secondaryAnimation, child) {
-                                return FadeTransition(
-                                  opacity: animation,
-                                  child: child,
-                                );
-                              },
-                              barrierColor: Colors.white.withOpacity(0.85)));
-                    },
-                    child: const Text('정확한 시간 설정',
-                        style: TextStyle(
-                            fontFamily: 'Noto_Sans_KR',
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black)),
-                  ),
-                ),
-              ),
+                  child: AccurateTimeSetting(
+                setAlarmTime: setAlarmTime,
+              )),
             ),
-            const SizedBox(
-              height: 10.0,
-            ),
-            alarmTime == ''
-                ? const SizedBox(
-                    height: 37.0,
-                  )
-                : Center(
-                    child: Container(
-                      alignment: Alignment.center,
-                      padding: const EdgeInsets.symmetric(vertical: 10.0),
-                      width: 70,
-                      decoration: BoxDecoration(
-                          color: const Color(0x0fa8b1ac),
-                          borderRadius: BorderRadius.circular(12.0)),
-                      child: Text(
-                        DateTimeUtils.convertKorTime(alarmTime),
-                        style: TextStyle(
-                            color: const Color(0xff358957).withOpacity(0.8),
-                            fontFamily: 'Noto_Sans_KR',
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600),
-                      ),
-                    ),
-                  )
           ],
         ),
       ),

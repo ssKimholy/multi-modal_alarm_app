@@ -50,7 +50,7 @@ class _FriendScreenState extends State<FriendScreen> {
     return Scaffold(
       appBar: const CustomAppBar(
         title: '친구 목록',
-        marginVar: 35.0,
+        marginVar: 58.0,
       ),
       bottomNavigationBar: const CustomBottomNavBar(),
       body: Column(

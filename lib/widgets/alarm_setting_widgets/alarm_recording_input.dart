@@ -39,13 +39,15 @@ class AlarmRecordingInput extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 85.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
                   decoration: BoxDecoration(
-                    color: const Color(0xffDFF9F0),
-                    borderRadius: BorderRadius.circular(7.0),
+                    color: isRecording
+                        ? const Color(0xfffafafa)
+                        : const Color(0xff898585).withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(50.0),
                   ),
                   padding: const EdgeInsets.symmetric(
                       horizontal: 8.0, vertical: 7.0),
@@ -54,58 +56,51 @@ class AlarmRecordingInput extends StatelessWidget {
                         isRecording ? onStopRecord() : onStartRecord();
                       },
                       child: isRecording
-                          ? const Icon(
-                              Icons.keyboard_voice_outlined,
-                              color: Color(0xff3ad277),
-                              size: 26,
+                          ? Icon(
+                              Icons.stop_circle,
+                              color: const Color(0xffC93D35).withOpacity(0.8),
+                              size: 46,
                             )
-                          : const Icon(
+                          : Icon(
                               Icons.keyboard_voice,
-                              color: Color(0xff3ad277),
-                              size: 26,
+                              color: const Color(0xffC93D35).withOpacity(0.8),
+                              size: 46,
                             )),
                 ),
-                Container(
-                  decoration: BoxDecoration(
-                    color: const Color(0xffDFF9F0),
-                    borderRadius: BorderRadius.circular(7.0),
-                  ),
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 8.0, vertical: 7.0),
-                  child: GestureDetector(
-                      onTap: () {
-                        isPlaying ? onStopPlay() : onStartPlay();
-                      },
-                      child: isPlaying
-                          ? const Icon(Icons.pause,
-                              color: Color(0xff3AD277), size: 26)
-                          : const Icon(Icons.play_arrow,
-                              color: Color(0xff3AD277), size: 26)),
+                const SizedBox(
+                  height: 20.0,
                 ),
+                recordedFilePath == ''
+                    ? const SizedBox()
+                    : Container(
+                        decoration: BoxDecoration(
+                          color: isRecording
+                              ? const Color(0xfffafafa)
+                              : const Color(0xff898585).withOpacity(0.2),
+                          borderRadius: BorderRadius.circular(50.0),
+                        ),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8.0, vertical: 7.0),
+                        child: GestureDetector(
+                            onTap: () {
+                              isPlaying ? onStopPlay() : onStartPlay();
+                            },
+                            child: isPlaying
+                                ? Icon(Icons.pause,
+                                    color: const Color(0xffC93D35)
+                                        .withOpacity(0.8),
+                                    size: 46)
+                                : Icon(Icons.play_arrow,
+                                    color: const Color(0xffC93D35)
+                                        .withOpacity(0.8),
+                                    size: 46)),
+                      ),
               ],
             ),
           ),
           const SizedBox(
             height: 10.0,
           ),
-          Container(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 60.0, vertical: 20.0),
-            decoration: BoxDecoration(
-                color: const Color(0x0fa8b1ac),
-                borderRadius: BorderRadius.circular(12.0)),
-            child: Text(
-              // 녹음 여부에 따라 텍스트 변환
-              recordedFilePath != ''
-                  ? "음성 녹음이 완료되었습니다. \n음성을 확인해보세요."
-                  : '음성 녹음을 기다리는 중 입니다.',
-              style: const TextStyle(
-                  color: Color(0xff898585),
-                  fontFamily: 'Noto_Sans_KR',
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600),
-            ),
-          )
         ],
       ),
     );

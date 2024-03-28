@@ -84,6 +84,7 @@ class MyApp extends StatelessWidget {
     _channel.setMethodCallHandler(handleMethod);
 
     return MaterialApp(
+      theme: ThemeData(scaffoldBackgroundColor: const Color(0xfffafafa)),
       title: 'AlarmApp Demo',
       debugShowCheckedModeBanner: false,
       localizationsDelegates: const [

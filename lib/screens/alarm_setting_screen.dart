@@ -196,6 +196,8 @@ class _AlarmSettingScreenState extends State<AlarmSettingScreen> {
     setState(() {
       widget.alarmTime = time;
     });
+
+    print(widget.alarmTime);
   }
 
   setAlarmPeriod(String day) {
@@ -219,6 +221,7 @@ class _AlarmSettingScreenState extends State<AlarmSettingScreen> {
         backgroundColor: Colors.white,
         elevation: 1.5,
         toolbarHeight: 30,
+        automaticallyImplyLeading: false,
         flexibleSpace: Padding(
           padding: const EdgeInsets.symmetric(vertical: 7.0, horizontal: 5.0),
           child: Row(
@@ -248,14 +251,19 @@ class _AlarmSettingScreenState extends State<AlarmSettingScreen> {
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 7.0),
-        child: Column(
+        child: ListView(
           children: [
             AlarmNameInput(controller: controller, setAlarmName: setAlarmName),
             AlarmTimeInput(
-                alarmTime: widget.alarmTime, setAlarmTime: setAlarmTime),
+              alarmTime: widget.alarmTime,
+              setAlarmTime: setAlarmTime,
+            ),
             AlarmPeriodInput(
                 alarmPeriod: widget.alarmPeriod,
                 setAlarmPeriod: setAlarmPeriod),
+            const SizedBox(
+              height: 15.0,
+            ),
             AlarmRecordingInput(
               isRecording: widget.isRecording,
               isPlaying: widget.isPlaying,
@@ -274,13 +282,13 @@ class _AlarmSettingScreenState extends State<AlarmSettingScreen> {
                 Navigator.pop(context);
               },
               child: Container(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 155.0, vertical: 12.0),
+                alignment: Alignment.center,
+                padding: const EdgeInsets.symmetric(vertical: 12.0),
                 decoration: BoxDecoration(
                     color: const Color(0xff3AD277),
                     borderRadius: BorderRadius.circular(10.0)),
                 child: Text(
-                  '알람 설정',
+                  '완료',
                   style: TextStyle(
                       color: Colors.white.withOpacity(0.9),
                       fontFamily: 'Noto_Sans_KR',
@@ -288,7 +296,7 @@ class _AlarmSettingScreenState extends State<AlarmSettingScreen> {
                       fontWeight: FontWeight.w500),
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),

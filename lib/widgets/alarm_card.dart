@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../models/alarm.dart';
 
@@ -67,7 +69,7 @@ class AlarmCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 25),
+      padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
       margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 55),
       decoration: BoxDecoration(
         color: const Color(0xfffafafa),
@@ -82,6 +84,7 @@ class AlarmCard extends StatelessWidget {
         ],
       ),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Padding(
             padding: const EdgeInsets.only(left: 10.0),
@@ -89,11 +92,14 @@ class AlarmCard extends StatelessWidget {
               children: [
                 ClipOval(
                   child: SvgPicture.asset(
-                    alarm.profile.imageURL,
+                    'assets/images/svg/profile_button.svg',
                     fit: BoxFit.cover,
                     width: 40.0,
                     height: 40.0,
                   ),
+                ),
+                const SizedBox(
+                  height: 7.0,
                 ),
                 Text(
                   alarm.profile.name,
@@ -105,20 +111,24 @@ class AlarmCard extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(
-            width: 120,
-          ),
-          Expanded(
+          Flexible(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text(
-                  alarm.name,
-                  style: TextStyle(
-                    fontWeight: FontWeight.w400,
-                    fontSize: 12,
-                    color: Colors.black.withOpacity(0.5),
-                    fontFamily: 'Noto_Sans_KR',
+                Container(
+                  width: 90,
+                  alignment: Alignment.center,
+                  child: Text(
+                    alarm.name,
+                    style: TextStyle(
+                      fontWeight: FontWeight.w400,
+                      fontSize: 12,
+                      color: Colors.black.withOpacity(0.5),
+                      fontFamily: 'Noto_Sans_KR',
+                    ),
+                    overflow:
+                        TextOverflow.ellipsis, // 텍스트가 컨테이너를 넘어갈 경우, "..."으로 표시
+                    maxLines: 2, // 최대 줄 수를 제한
                   ),
                 ),
                 Text(

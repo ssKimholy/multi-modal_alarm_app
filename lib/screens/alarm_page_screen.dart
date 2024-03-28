@@ -1,7 +1,6 @@
 import 'package:alarm_app/widgets/custom_app_bar.dart';
 import 'package:alarm_app/widgets/custom_bottom_bar.dart';
 import 'package:flutter/material.dart';
-
 import '../models/alarm.dart';
 import '../models/profile.dart';
 import '../utils/date_time_util.dart';
@@ -39,7 +38,7 @@ class AlarmPageScreen extends StatelessWidget {
         settingTime: DateTimeUtils.formatCurrentTime(),
         profile: Profile('오은영', 'assets/images/svg/ohE.svg')),
     Alarm(
-        alarmName: '혈압 재기',
+        alarmName: '혈압 재기 가자가자가자가자가자가자가자가자가자가자가자가자가자가자가자가자가자가자가자',
         alarmTime: '19:00',
         alarmPeriod: ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'],
         isNew: false,
@@ -61,7 +60,7 @@ class AlarmPageScreen extends StatelessWidget {
     return Scaffold(
       appBar: const CustomAppBar(
         title: 'Volarm',
-        marginVar: 27.0,
+        marginVar: 48.0,
       ),
       bottomNavigationBar: const CustomBottomNavBar(),
       body: Column(

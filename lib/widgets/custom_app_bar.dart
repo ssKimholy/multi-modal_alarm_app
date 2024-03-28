@@ -33,10 +33,10 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           ),
           Container(
             margin: EdgeInsets.only(right: marginVar),
-            child: SvgPicture.asset(
-              'assets/images/svg/app_logo.svg',
-              width: 40,
-              height: 40,
+            child: Image.asset(
+              'assets/images/png/appLogo.png',
+              width: 30,
+              height: 30,
             ),
           ),
           Padding(

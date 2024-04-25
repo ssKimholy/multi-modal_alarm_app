@@ -1,28 +1,40 @@
+import 'package:alarm_app/models/alarm.dart';
+import 'package:alarm_app/models/profile.dart';
+import 'package:alarm_app/utils/date_time_util.dart';
+import 'package:alarm_app/utils/global_var.dart';
+import 'package:alarm_app/utils/http_request_util.dart';
 import 'package:alarm_app/widgets/alarm_setting_widgets/alarm_name_input.dart';
 import 'package:alarm_app/widgets/alarm_setting_widgets/alarm_period_input.dart';
 import 'package:alarm_app/widgets/alarm_setting_widgets/alarm_recording_input.dart';
 import 'package:alarm_app/widgets/alarm_setting_widgets/alarm_time_input.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sound/flutter_sound.dart';
+import 'package:http/http.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:provider/provider.dart';
 
 class AlarmSettingScreen extends StatefulWidget {
   final String takerName;
+  final String takerId;
   late String alarmName;
   late String alarmTime;
   late List<String> alarmPeriod = [];
   late bool isRecording;
   late bool isPlaying;
   late String audioName;
+  late Duration? duration;
 
   AlarmSettingScreen({
     super.key,
     required this.takerName,
+    required this.takerId,
     this.alarmName = '',
     this.alarmTime = '',
     this.isRecording = false,
     this.isPlaying = false,
     this.audioName = '',
+    this.duration = const Duration(),
   });
 
   @override
@@ -31,9 +43,9 @@ class AlarmSettingScreen extends StatefulWidget {
 
 class _AlarmSettingScreenState extends State<AlarmSettingScreen> {
   final TextEditingController controller = TextEditingController();
-  final TextEditingController audioNameController = TextEditingController();
   FlutterSoundRecorder? _recorder;
   FlutterSoundPlayer? _player;
+  AudioPlayer? audioPlayer;
   String? _recordedFilePath;
 
   @override
@@ -41,6 +53,7 @@ class _AlarmSettingScreenState extends State<AlarmSettingScreen> {
     super.initState();
     _recorder = FlutterSoundRecorder();
     _player = FlutterSoundPlayer();
+    audioPlayer = AudioPlayer();
     _recordedFilePath = '';
     _init();
   }
@@ -54,103 +67,27 @@ class _AlarmSettingScreenState extends State<AlarmSettingScreen> {
   }
 
   Future<void> _startRecording() async {
-    await _recorder!.startRecorder(toFile: 'myRecording.aac');
+    await audioPlayer!.dispose();
+
+    await _recorder!.startRecorder(
+      toFile: 'myRecording.aac',
+      codec: Codec.aacADTS,
+    );
     setState(() {
       widget.isRecording = true;
     });
   }
 
   Future<void> _stopRecording() async {
+    audioPlayer = AudioPlayer();
     final path = await _recorder!.stopRecorder();
+    await audioPlayer!.setSourceUrl(path!);
+    var len = await audioPlayer!.getDuration();
     setState(() {
+      print(len);
+      widget.duration = len;
       widget.isRecording = false;
       _recordedFilePath = path;
-      showDialog(
-        context: context,
-        builder: (context) {
-          return Dialog(
-            child: Container(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
-              width: 150,
-              height: 150,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    '음성 녹음본의 이름을 설정해주세요.',
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontFamily: 'Noto_Sans_KR',
-                        fontSize: 15,
-                        fontWeight: FontWeight.w500),
-                  ),
-                  const SizedBox(
-                    height: 10.0,
-                  ),
-                  TextField(
-                    controller: audioNameController,
-                    decoration: InputDecoration(
-                      contentPadding: const EdgeInsets.symmetric(
-                          vertical: 0.0, horizontal: 12.0),
-                      focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(6),
-                          borderSide: BorderSide(
-                              color: const Color(0xff898585).withOpacity(0.2),
-                              style: BorderStyle.solid)),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: const Color(0xff898585).withOpacity(0.2),
-                          width: 1.0,
-                        ),
-                      ),
-                      hintText: '음성의 이름을 입력하세요.',
-                      hintStyle: TextStyle(
-                          color: const Color(0xff898585).withOpacity(0.6),
-                          fontFamily: 'Noto_Sans_KR',
-                          fontSize: 14,
-                          fontWeight: FontWeight.w300),
-                    ),
-                    onSubmitted: (String value) {
-                      setAudioName(value);
-                    },
-                  ),
-                  const SizedBox(
-                    height: 10.0,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                        child: Container(
-                          alignment: Alignment.center,
-                          width: 50,
-                          height: 30,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8.0),
-                            color: const Color(0xff3AD277),
-                          ),
-                          child: const Text(
-                            '완료',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontFamily: 'Noto_Sans_KR',
-                                fontSize: 12,
-                                fontWeight: FontWeight.w500),
-                          ),
-                        ),
-                      ),
-                    ],
-                  )
-                ],
-              ),
-            ),
-          );
-        },
-      );
     });
   }
 
@@ -208,14 +145,10 @@ class _AlarmSettingScreenState extends State<AlarmSettingScreen> {
     });
   }
 
-  setAudioName(String name) {
-    setState(() {
-      widget.audioName = name;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
+    final global = Provider.of<GlobalVar>(context);
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -238,7 +171,7 @@ class _AlarmSettingScreenState extends State<AlarmSettingScreen> {
                 },
               ),
               Text(
-                '${widget.takerName}님에게 알람 설정 하기',
+                '${widget.takerName}님에게 알람 설정',
                 style: const TextStyle(
                     color: Colors.black,
                     fontFamily: 'Noto_Sans_KR',
@@ -272,6 +205,7 @@ class _AlarmSettingScreenState extends State<AlarmSettingScreen> {
               onStartPlay: _startPlayer,
               onStopPlay: _stopPlayer,
               recordedFilePath: _recordedFilePath,
+              duration: widget.duration!,
             ),
             const SizedBox(
               height: 20.0,
@@ -279,6 +213,19 @@ class _AlarmSettingScreenState extends State<AlarmSettingScreen> {
             GestureDetector(
               onTap: () {
                 // alarm setting logic
+                HttpRequestUtil.setAlarm(
+                  Alarm(
+                      alarmName: widget.alarmName,
+                      alarmTime: widget.alarmTime,
+                      alarmId: 0,
+                      alarmPeriod: widget.alarmPeriod,
+                      isNew: false,
+                      settingTime: DateTimeUtils.formatCurrentTime(),
+                      profile: Profile(global.getUserName, '')),
+                  _recordedFilePath!,
+                  widget.takerId,
+                  global.getUserId,
+                );
                 Navigator.pop(context);
               },
               child: Container(

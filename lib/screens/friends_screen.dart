@@ -1,8 +1,14 @@
+import 'dart:io';
+
 import 'package:alarm_app/models/chat_profile.dart';
+import 'package:alarm_app/utils/global_var.dart';
+import 'package:alarm_app/utils/http_request_util.dart';
 import 'package:alarm_app/widgets/custom_app_bar.dart';
 import 'package:alarm_app/widgets/custom_bottom_bar.dart';
 import 'package:alarm_app/widgets/friend_widget.dart';
+import 'package:alarm_app/widgets/intro_button.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../widgets/introduction_of_page.dart';
 
@@ -14,24 +20,12 @@ class FriendScreen extends StatefulWidget {
 }
 
 class _FriendScreenState extends State<FriendScreen> {
-  List<ChatProfile> chatProfiles = [
-    ChatProfile(
-        name: '김경영', imageURL: 'assets/images/png/kimG.png', numOfAlarm: '4'),
-    ChatProfile(
-        name: '김진구', imageURL: 'assets/images/png/kimR.png', numOfAlarm: '0'),
-    ChatProfile(
-        name: '오은영', imageURL: 'assets/images/png/ohE.png', numOfAlarm: '1'),
-    ChatProfile(
-        name: '이개명', imageURL: 'assets/images/png/kimR.png', numOfAlarm: '1'),
-    ChatProfile(
-        name: '이경영', imageURL: 'assets/images/png/leeG.png', numOfAlarm: '2'),
-    ChatProfile(
-        name: '허은아', imageURL: 'assets/images/png/huhE.png', numOfAlarm: '4'),
-    ChatProfile(
-        name: '허경영', imageURL: 'assets/images/png/huhG.png', numOfAlarm: '3'),
-  ];
-
   List<ChatProfile> favoriteChatProfiles = [];
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   void updateFavoriteUI(ChatProfile profile) {
     // 즐겨찾기 여부
@@ -47,6 +41,8 @@ class _FriendScreenState extends State<FriendScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final global = Provider.of<GlobalVar>(context);
+
     return Scaffold(
       appBar: const CustomAppBar(
         title: '친구 목록',
@@ -55,10 +51,14 @@ class _FriendScreenState extends State<FriendScreen> {
       bottomNavigationBar: const CustomBottomNavBar(),
       body: Column(
         children: [
-          const IntroductionOfPage(
-            introTitle: '친구에게 알람 설정',
-            introSubTitle: '알람을 맞춰주고 싶은 친구를 선택해 추가하세요.',
-            buttonText: '친구 추가',
+          const Row(
+            children: [
+              IntroductionOfPage(
+                introTitle: '친구에게 알람 설정',
+                introSubTitle: '알람을 맞춰주고 싶은 친구를 선택해 추가하세요.',
+              ),
+              IntroButton(buttonText: '친구 추가'),
+            ],
           ),
           Expanded(
             child: ListView(
@@ -114,23 +114,43 @@ class _FriendScreenState extends State<FriendScreen> {
                   ),
                 ),
                 // 전체 친구 목록 표시
-                ListView.separated(
-                  shrinkWrap: true, // 내부 ListView이므로, 이 옵션을 true로 설정
-                  physics: const NeverScrollableScrollPhysics(), // 내부 스크롤을 비활성화
-                  itemCount: chatProfiles.length,
-                  itemBuilder: (context, index) {
-                    return FriendWidget(
-                      chatProfile: chatProfiles[index],
-                      onUpdateFavorite: updateFavoriteUI,
-                    );
+                FutureBuilder<List<dynamic>>(
+                  future: HttpRequestUtil.fetchFriends(global.getUserId),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(child: CircularProgressIndicator());
+                    } else if (snapshot.hasError) {
+                      return const Center(child: Text('오류가 발생했습니다.'));
+                    } else {
+                      final data = snapshot.data!;
+                      final chatProfiles = data
+                          .map((e) => ChatProfile(
+                              name: e["friend"]["memberName"],
+                              id: e["friend"]["memberId"],
+                              num: e["friendNo"],
+                              numOfAlarm: '0'))
+                          .toList();
+                      return ListView.separated(
+                        shrinkWrap: true, // 내부 ListView이므로, 이 옵션을 true로 설정
+                        physics:
+                            const NeverScrollableScrollPhysics(), // 내부 스크롤을 비활성화
+                        itemCount: chatProfiles.length,
+                        itemBuilder: (context, index) {
+                          return FriendWidget(
+                            chatProfile: chatProfiles[index],
+                            onUpdateFavorite: updateFavoriteUI,
+                          );
+                        },
+                        separatorBuilder: (context, index) => Divider(
+                          color: const Color(0xff90B483).withOpacity(0.25),
+                          thickness: 1.0,
+                          indent: 3.0,
+                          endIndent: 3.0,
+                        ),
+                      );
+                    }
                   },
-                  separatorBuilder: (context, index) => Divider(
-                    color: const Color(0xff90B483).withOpacity(0.25),
-                    thickness: 1.0,
-                    indent: 3.0,
-                    endIndent: 3.0,
-                  ),
-                ),
+                )
               ],
             ),
           )

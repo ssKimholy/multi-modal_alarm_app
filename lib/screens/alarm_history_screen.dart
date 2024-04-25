@@ -10,6 +10,7 @@ class AlarmHistoryScreen extends StatelessWidget {
     Alarm(
         alarmName: '고혈압 약 먹기',
         alarmTime: '07:30',
+        alarmId: 1,
         alarmPeriod: ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'],
         isNew: false,
         settingTime: DateTimeUtils.formatCurrentTime(),
@@ -17,6 +18,7 @@ class AlarmHistoryScreen extends StatelessWidget {
     Alarm(
         alarmName: '혈압 재기',
         alarmTime: '07:30',
+        alarmId: 2,
         alarmPeriod: ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'],
         isNew: true,
         settingTime: DateTimeUtils.formatCurrentTime(),
@@ -24,6 +26,7 @@ class AlarmHistoryScreen extends StatelessWidget {
     Alarm(
         alarmName: '비타민 먹기',
         alarmTime: '12:00',
+        alarmId: 3,
         alarmPeriod: ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'],
         isNew: false,
         settingTime: DateTimeUtils.formatCurrentTime(),
@@ -31,6 +34,7 @@ class AlarmHistoryScreen extends StatelessWidget {
     Alarm(
         alarmName: '목요일 심리상담',
         alarmTime: '15:00',
+        alarmId: 4,
         alarmPeriod: ['thu'],
         isNew: false,
         settingTime: DateTimeUtils.formatCurrentTime(),
@@ -38,6 +42,7 @@ class AlarmHistoryScreen extends StatelessWidget {
     Alarm(
         alarmName: '혈압 재기',
         alarmTime: '19:00',
+        alarmId: 5,
         alarmPeriod: ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'],
         isNew: false,
         settingTime: DateTimeUtils.formatCurrentTime(),
@@ -45,6 +50,7 @@ class AlarmHistoryScreen extends StatelessWidget {
     Alarm(
         alarmName: 'ㄱㄱ',
         alarmTime: '21:00',
+        alarmId: 6,
         alarmPeriod: ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'],
         isNew: false,
         settingTime: DateTimeUtils.formatCurrentTime(),

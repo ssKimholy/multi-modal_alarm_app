@@ -20,7 +20,6 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         // 메시지 데이터 처리. 예를 들어, 알람 시간 설정에 필요한 데이터를 여기서 파싱합니다.
         if (remoteMessage.data.isNotEmpty()) {
             Log.e("pulg", "notEmpty")
-
         }
         setAlarm()
         Log.e("pulg", "end")

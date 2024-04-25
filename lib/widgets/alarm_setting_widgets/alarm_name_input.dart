@@ -49,7 +49,7 @@ class AlarmNameInput extends StatelessWidget {
                   fontSize: 14,
                   fontWeight: FontWeight.w300),
             ),
-            onSubmitted: (String value) {
+            onChanged: (value) {
               setAlarmName(value);
             },
           ),

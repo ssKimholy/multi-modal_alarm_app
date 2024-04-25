@@ -36,11 +36,11 @@ class AlarmPeriodInput extends StatelessWidget {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        setAlarmPeriod('mon');
+                        setAlarmPeriod('MON');
                       },
                       child: Container(
                         decoration: BoxDecoration(
-                          color: alarmPeriod.contains('mon')
+                          color: alarmPeriod.contains('MON')
                               ? const Color(0xff3AD277).withOpacity(0.5)
                               : const Color(0xff898585).withOpacity(0.2),
                           borderRadius: BorderRadius.circular(7.0),
@@ -59,11 +59,11 @@ class AlarmPeriodInput extends StatelessWidget {
                     ),
                     GestureDetector(
                       onTap: () {
-                        setAlarmPeriod('tue');
+                        setAlarmPeriod('TUE');
                       },
                       child: Container(
                         decoration: BoxDecoration(
-                          color: alarmPeriod.contains('tue')
+                          color: alarmPeriod.contains('TUE')
                               ? const Color(0xff3AD277).withOpacity(0.5)
                               : const Color(0xff898585).withOpacity(0.2),
                           borderRadius: BorderRadius.circular(7.0),
@@ -82,11 +82,11 @@ class AlarmPeriodInput extends StatelessWidget {
                     ),
                     GestureDetector(
                       onTap: () {
-                        setAlarmPeriod('wed');
+                        setAlarmPeriod('WED');
                       },
                       child: Container(
                         decoration: BoxDecoration(
-                          color: alarmPeriod.contains('wed')
+                          color: alarmPeriod.contains('WED')
                               ? const Color(0xff3AD277).withOpacity(0.5)
                               : const Color(0xff898585).withOpacity(0.2),
                           borderRadius: BorderRadius.circular(7.0),
@@ -105,11 +105,11 @@ class AlarmPeriodInput extends StatelessWidget {
                     ),
                     GestureDetector(
                       onTap: () {
-                        setAlarmPeriod('thu');
+                        setAlarmPeriod('THURS');
                       },
                       child: Container(
                         decoration: BoxDecoration(
-                          color: alarmPeriod.contains('thu')
+                          color: alarmPeriod.contains('THURS')
                               ? const Color(0xff3AD277).withOpacity(0.5)
                               : const Color(0xff898585).withOpacity(0.2),
                           borderRadius: BorderRadius.circular(7.0),
@@ -136,11 +136,11 @@ class AlarmPeriodInput extends StatelessWidget {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        setAlarmPeriod('fri');
+                        setAlarmPeriod('FRI');
                       },
                       child: Container(
                         decoration: BoxDecoration(
-                          color: alarmPeriod.contains('fri')
+                          color: alarmPeriod.contains('FRI')
                               ? const Color(0xff3AD277).withOpacity(0.5)
                               : const Color(0xff898585).withOpacity(0.2),
                           borderRadius: BorderRadius.circular(7.0),
@@ -159,11 +159,11 @@ class AlarmPeriodInput extends StatelessWidget {
                     ),
                     GestureDetector(
                       onTap: () {
-                        setAlarmPeriod('sat');
+                        setAlarmPeriod('SAT');
                       },
                       child: Container(
                         decoration: BoxDecoration(
-                          color: alarmPeriod.contains('sat')
+                          color: alarmPeriod.contains('SAT')
                               ? const Color(0xff3AD277).withOpacity(0.5)
                               : const Color(0xff898585).withOpacity(0.2),
                           borderRadius: BorderRadius.circular(7.0),
@@ -182,11 +182,11 @@ class AlarmPeriodInput extends StatelessWidget {
                     ),
                     GestureDetector(
                       onTap: () {
-                        setAlarmPeriod('sun');
+                        setAlarmPeriod('SUN');
                       },
                       child: Container(
                         decoration: BoxDecoration(
-                          color: alarmPeriod.contains('sun')
+                          color: alarmPeriod.contains('SUN')
                               ? const Color(0xff3AD277).withOpacity(0.5)
                               : const Color(0xff898585).withOpacity(0.2),
                           borderRadius: BorderRadius.circular(7.0),

@@ -1,5 +1,8 @@
+import 'package:alarm_app/screens/onboarding_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
@@ -13,6 +16,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       backgroundColor: Colors.white,
       elevation: 1,
+      automaticallyImplyLeading: false,
       flexibleSpace: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -39,12 +43,23 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               height: 30,
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: SvgPicture.asset(
-              'assets/images/svg/profile_button.svg',
-              width: 36,
-              height: 36,
+          GestureDetector(
+            onTap: () async {
+              final prefs = await SharedPreferences.getInstance();
+              await prefs.setBool('isLoggedIn', false);
+              Navigator.push(context, MaterialPageRoute(
+                builder: (context) {
+                  return const OnboardingScreen();
+                },
+              ));
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: SvgPicture.asset(
+                'assets/images/svg/profile_button.svg',
+                width: 36,
+                height: 36,
+              ),
             ),
           ),
         ],

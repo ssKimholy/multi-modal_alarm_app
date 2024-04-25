@@ -1,3 +1,4 @@
+import 'package:alarm_app/screens/add_friend_screen.dart';
 import 'package:flutter/material.dart';
 
 class IntroButton extends StatelessWidget {
@@ -14,13 +15,19 @@ class IntroButton extends StatelessWidget {
             backgroundColor:
                 MaterialStateProperty.all<Color>(const Color(0xff3AD277)),
             padding: MaterialStateProperty.all<EdgeInsets>(
-                const EdgeInsets.symmetric(horizontal: 10.0, vertical: 3.0))),
-        onPressed: () {},
+                const EdgeInsets.symmetric(horizontal: 7.0, vertical: 3.0))),
+        onPressed: () {
+          Navigator.push(context, MaterialPageRoute(
+            builder: (context) {
+              return AddFriendScreen();
+            },
+          ));
+        },
         child: Text(
           buttonText,
           style: const TextStyle(
               fontFamily: 'Noto_Sans_KR',
-              fontSize: 13,
+              fontSize: 15,
               fontWeight: FontWeight.w500,
               color: Colors.white),
         ),

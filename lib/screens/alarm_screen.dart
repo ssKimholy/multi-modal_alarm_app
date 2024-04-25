@@ -1,12 +1,17 @@
 import 'package:alarm_app/main.dart';
+import 'package:alarm_app/screens/home_screen.dart';
 import 'package:alarm_app/utils/date_time_util.dart';
+import 'package:alarm_app/utils/http_request_util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AlarmScreen extends StatefulWidget {
-  const AlarmScreen({super.key});
+  const AlarmScreen({
+    super.key,
+  });
 
   @override
   State<AlarmScreen> createState() => _AlarmScreenState();
@@ -22,7 +27,23 @@ class _AlarmScreenState extends State<AlarmScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    setFixedScreen();
     playAlarmSound();
+  }
+
+  void setFixedScreen() async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setBool('isFixed', true);
+    print('alarm');
+  }
+
+  Future<Map<String, dynamic>> loadAlarmInfo() async {
+    final prefs = await SharedPreferences.getInstance();
+    return {
+      'alarmName': prefs.getString('alarmName') ?? '',
+      'alarmTime': prefs.getString('alarmTime') ?? '',
+      'alarmId': prefs.getInt('alarmId') ?? 0,
+    };
   }
 
   @override
@@ -63,43 +84,31 @@ class _AlarmScreenState extends State<AlarmScreen> {
               const SizedBox(
                 height: 80.0,
               ),
-              const Text(
-                '고혈압 약 복용',
-                style: TextStyle(
-                    fontFamily: 'Noto_Sans_KR',
-                    fontSize: 40,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.white),
+              FutureBuilder(
+                future: loadAlarmInfo(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (snapshot.hasError) {
+                    return Center(child: Text('Error: ${snapshot.error}'));
+                  } else {
+                    final alarmInfo = snapshot.data!;
+                    return Text(
+                      alarmInfo["alarmName"],
+                      style: const TextStyle(
+                          fontFamily: 'Noto_Sans_KR',
+                          fontSize: 40,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white),
+                    );
+                  }
+                },
               ),
               const SizedBox(
                 height: 90.0,
               ),
               isAlarmStop
-                  ? Column(
-                      children: [
-                        const Text('녹음된 소리 재생',
-                            style: TextStyle(
-                                fontFamily: 'Noto_Sans_KR',
-                                fontSize: 20,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.white)),
-                        const SizedBox(
-                          height: 10.0,
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            onClickVoiceRun();
-                          },
-                          child: Icon(
-                            isVoiceRun
-                                ? Icons.stop_circle_outlined
-                                : Icons.play_circle_outline_rounded,
-                            color: const Color(0xff3AD277),
-                            size: 80,
-                          ),
-                        )
-                      ],
-                    )
+                  ? const SizedBox()
                   : GestureDetector(
                       onTap: () {
                         onClickAlarmStop();
@@ -122,7 +131,12 @@ class _AlarmScreenState extends State<AlarmScreen> {
               isAlarmStop
                   ? GestureDetector(
                       onTap: () {
-                        Navigator.pop(context);
+                        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
+                          builder: (context) {
+                            // esm 평가 페이지로 이동!
+                            return const HomeScreen();
+                          },
+                        ), (route) => false);
                       },
                       child: Container(
                         padding: const EdgeInsets.symmetric(
@@ -131,12 +145,14 @@ class _AlarmScreenState extends State<AlarmScreen> {
                           borderRadius: BorderRadius.circular(30),
                           color: const Color(0xff3AD277),
                         ),
-                        child: const Text('확인',
-                            style: TextStyle(
-                                fontFamily: 'Noto_Sans_KR',
-                                fontSize: 24,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.white)),
+                        child: const Text(
+                          '확인',
+                          style: TextStyle(
+                              fontFamily: 'Noto_Sans_KR',
+                              fontSize: 24,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white),
+                        ),
                       ),
                     )
                   : const SizedBox()
@@ -152,10 +168,11 @@ class _AlarmScreenState extends State<AlarmScreen> {
     });
   }
 
-  onClickVoiceRun() {
+  onClickVoiceRun(alarmId) {
     setState(() {
       isVoiceRun = !isVoiceRun;
       // 녹음된 사운드 재생
+      HttpRequestUtil.getAlarmVoice(alarmId);
     });
   }
 }

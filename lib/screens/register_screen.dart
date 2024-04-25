@@ -1,18 +1,15 @@
+import 'package:alarm_app/utils/global_var.dart';
+import 'package:alarm_app/utils/http_request_util.dart';
 import 'package:alarm_app/widgets/user_input_widget.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class RegisterScreen extends StatefulWidget {
-  late String email;
-  late String password;
-  late String nickName;
-  late String phoneNumber;
-
-  RegisterScreen(
-      {super.key,
-      this.email = '',
-      this.password = '',
-      this.nickName = '',
-      this.phoneNumber = ''});
+  const RegisterScreen({
+    super.key,
+  });
 
   @override
   State<RegisterScreen> createState() => _RegisterScreenState();
@@ -24,37 +21,48 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController nicknameController = TextEditingController();
   final TextEditingController phoneNumberController = TextEditingController();
 
-  setEmail(String email) {
-    setState(() {
-      widget.email = email;
-    });
+  setEmail(String email, global) {
+    global.setUserId(email);
   }
 
-  setPassword(String pw) {
-    setState(() {
-      widget.password = pw;
-    });
+  setPassword(String pw, global) {
+    global.setUserPw(pw);
   }
 
-  setNickname(String nickname) {
-    setState(() {
-      widget.nickName = nickname;
-    });
+  setNickname(String nickname, global) {
+    global.setUserName(nickname);
   }
 
-  setPhoneNumber(String number) {
-    setState(() {
-      widget.phoneNumber = number;
-    });
+  setPhoneNumber(String number, global) {
+    global.setUserPhoneNumber(number);
+  }
+
+  Future<String> getMyDeviceToken() async {
+    String? token = await FirebaseMessaging.instance.getToken();
+    return token!;
+  }
+
+  void setToken(global) async {
+    String token = await getMyDeviceToken();
+    global.setDeviceToken(token);
+  }
+
+  @override
+  void initState() {
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    final global = Provider.of<GlobalVar>(context);
+    setToken(global);
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 1,
         toolbarHeight: 30,
+        automaticallyImplyLeading: false,
         flexibleSpace: const Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -93,7 +101,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   controller: emailController,
                   description: '이메일',
                   hintText: '이메일 입력',
-                  onText: setEmail),
+                  onText: (text) => setEmail(text, global)),
               const SizedBox(
                 height: 35.0,
               ),
@@ -101,7 +109,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   controller: passwordController,
                   description: '비밀번호',
                   hintText: '비밀번호 입력',
-                  onText: setPassword),
+                  onText: (text) => setPassword(text, global)),
               const SizedBox(
                 height: 35.0,
               ),
@@ -109,7 +117,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   controller: nicknameController,
                   description: '닉네임',
                   hintText: '닉네임 입력',
-                  onText: setNickname),
+                  onText: (text) => setNickname(text, global)),
               const SizedBox(
                 height: 35.0,
               ),
@@ -117,13 +125,25 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   controller: phoneNumberController,
                   description: '전화번호',
                   hintText: '전화번호 입력',
-                  onText: setPhoneNumber),
+                  onText: (text) => setPhoneNumber(text, global)),
               const SizedBox(
                 height: 90.0,
               ),
               GestureDetector(
-                onTap: () {
+                onTap: () async {
+                  print('touch ${global.getDeviceToken}');
+
+                  final prefs = await SharedPreferences.getInstance();
+                  await prefs.setString('phone-num', global.getUserPhoneNumber);
                   // 회원가입 logic
+                  HttpRequestUtil.registerUser(
+                      global.getUserId,
+                      global.getUserPw,
+                      global.getUserName,
+                      global.getUserPhoneNumber,
+                      global.getDeviceToken);
+
+                  Navigator.pop(context);
                 },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10.0),

@@ -10,17 +10,46 @@ import '../widgets/introduction_of_page.dart';
 import '../widgets/alarm_card.dart';
 import '../utils/global_var.dart';
 
-class AlarmPageScreen extends StatelessWidget {
-  const AlarmPageScreen({super.key});
+class FriendAlarmPage extends StatelessWidget {
+  final String id;
+  final String name;
+  const FriendAlarmPage({super.key, required this.id, required this.name});
 
   @override
   Widget build(BuildContext context) {
-    final global = Provider.of<GlobalVar>(context);
-
+    final global = Provider.of<GlobalVar>(context, listen: false);
     return Scaffold(
-      appBar: const CustomAppBar(
-        title: 'Volarm',
-        marginVar: 48.0,
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 1.5,
+        toolbarHeight: 30,
+        automaticallyImplyLeading: false,
+        flexibleSpace: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 7.0, horizontal: 5.0),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              IconButton(
+                icon: const Icon(
+                  Icons.arrow_back,
+                  color: Colors.black,
+                  size: 25,
+                ),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+              Text(
+                '$name님에게 설정한 알람',
+                style: const TextStyle(
+                    color: Colors.black,
+                    fontFamily: 'Noto_Sans_KR',
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700),
+              ),
+            ],
+          ),
+        ),
       ),
       bottomNavigationBar: const CustomBottomNavBar(),
       body: Column(
@@ -31,21 +60,22 @@ class AlarmPageScreen extends StatelessWidget {
           ),
           Expanded(
             child: FutureBuilder<List<dynamic>>(
-              future: HttpRequestUtil.fetchAllReceivedAlarms(global.getUserId),
+              future: HttpRequestUtil.fetchSentAlarms(
+                id,
+                global.getUserId,
+              ),
               builder: (context, snapshot) {
-                print(snapshot);
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(child: CircularProgressIndicator());
                 } else if (snapshot.hasError) {
-                  print('error ${snapshot.error}');
+                  print(snapshot.error);
                   return const Center(child: Text('데이터를 불러오는 데 실패했습니다.'));
                 } else if (snapshot.hasData) {
                   final data = snapshot.data!;
-                  // Alarm 객체 리스트를 생성
                   final alarms = data
                       .map((e) => Alarm(
                           alarmName: e["alarmName"],
-                          alarmPeriod: e["days"].replaceAll(' ', '').split(','),
+                          alarmPeriod: ["MON"],
                           alarmId: e["alarmId"],
                           alarmTime: e["time"],
                           isNew: false,
@@ -54,15 +84,10 @@ class AlarmPageScreen extends StatelessWidget {
                           profile: Profile(e["senderName"], "")))
                       .toList();
 
-                  // 'alarmTime' 기준으로 리스트 정렬
-                  alarms.sort((a, b) => a.alarmTime.compareTo(b.alarmTime));
-
                   return ListView.builder(
                     itemCount: alarms.length,
                     itemBuilder: (context, index) {
-                      return AlarmCard(
-                        alarm: alarms[index],
-                      );
+                      return AlarmCard(alarm: alarms[index]);
                     },
                   );
                 } else {

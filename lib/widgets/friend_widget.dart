@@ -1,6 +1,10 @@
 import 'package:alarm_app/models/chat_profile.dart';
 import 'package:alarm_app/screens/alarm_setting_screen.dart';
+import 'package:alarm_app/screens/friend_alarm_page.dart';
+import 'package:alarm_app/utils/global_var.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 
 class FriendWidget extends StatefulWidget {
   final ChatProfile chatProfile;
@@ -15,6 +19,11 @@ class FriendWidget extends StatefulWidget {
 
 class _FriendWidgetState extends State<FriendWidget> {
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
         width: double.infinity,
@@ -26,11 +35,10 @@ class _FriendWidgetState extends State<FriendWidget> {
               children: [
                 Row(
                   children: [
-                    Image.asset(
-                      widget.chatProfile.chatImageURL,
+                    SvgPicture.asset(
+                      'assets/images/svg/profile_button.svg',
                       width: 45,
                       height: 45,
-                      fit: BoxFit.cover,
                     ),
                     const SizedBox(
                       width: 15.0,
@@ -48,14 +56,6 @@ class _FriendWidgetState extends State<FriendWidget> {
                         ),
                         const SizedBox(
                           height: 7.0,
-                        ),
-                        Text(
-                          '${widget.chatProfile.chatNumOfAlarm}개의 알람을 설정해준 친구',
-                          style: const TextStyle(
-                              color: Color(0xff898585),
-                              fontFamily: 'Noto_Sans_KR',
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400),
                         ),
                       ],
                     ),
@@ -84,8 +84,8 @@ class _FriendWidgetState extends State<FriendWidget> {
               children: [
                 Container(
                   alignment: Alignment.center,
-                  width: 100,
-                  height: 28,
+                  width: 130,
+                  height: 40,
                   decoration: BoxDecoration(
                     border: Border.all(
                       color: const Color(0xff3AD277),
@@ -96,16 +96,24 @@ class _FriendWidgetState extends State<FriendWidget> {
                   child: GestureDetector(
                     onTap: () {
                       // 해당인에게 설정한 알람 보여주는 logic
+                      Navigator.push(context, MaterialPageRoute(
+                        builder: (context) {
+                          return FriendAlarmPage(
+                            id: widget.chatProfile.getId,
+                            name: widget.chatProfile.chatName,
+                          );
+                        },
+                      ));
                     },
                     child: const Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          '설정한 알람 보기',
+                          '설정한 알람',
                           style: TextStyle(
                               color: Color(0xff3AD277),
                               fontFamily: 'Noto_Sans_KR',
-                              fontSize: 12,
+                              fontSize: 15,
                               fontWeight: FontWeight.w500),
                         )
                       ],
@@ -117,8 +125,8 @@ class _FriendWidgetState extends State<FriendWidget> {
                 ),
                 Container(
                   alignment: Alignment.center,
-                  width: 100,
-                  height: 28,
+                  width: 130,
+                  height: 40,
                   decoration: BoxDecoration(
                     border: Border.all(
                       color: Colors.black,
@@ -136,22 +144,23 @@ class _FriendWidgetState extends State<FriendWidget> {
                               MaterialPageRoute(
                                   builder: (context) => AlarmSettingScreen(
                                         takerName: widget.chatProfile.chatName,
+                                        takerId: widget.chatProfile.getId,
                                       )));
                         },
                         child: Row(
                           children: [
                             const Text(
-                              '알람 설정 하기',
+                              '알람 설정',
                               style: TextStyle(
                                   fontFamily: 'Noto_Sans_KR',
-                                  fontSize: 12,
+                                  fontSize: 15,
                                   fontWeight: FontWeight.w500,
                                   color: Colors.black),
                             ),
                             Image.asset(
                               'assets/images/png/next.png',
-                              width: 20,
-                              height: 20,
+                              width: 25,
+                              height: 25,
                             ),
                           ],
                         ),

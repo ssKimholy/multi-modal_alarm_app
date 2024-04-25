@@ -1,5 +1,10 @@
+import 'package:alarm_app/screens/home_screen.dart';
 import 'package:alarm_app/screens/register_screen.dart';
+import 'package:alarm_app/utils/global_var.dart';
+import 'package:alarm_app/utils/http_request_util.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../widgets/user_input_widget.dart';
 
@@ -31,11 +36,14 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final global = Provider.of<GlobalVar>(context);
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 1,
         toolbarHeight: 30,
+        automaticallyImplyLeading: false,
         flexibleSpace: const Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -134,7 +142,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     onTap: () {
                       Navigator.push(context, MaterialPageRoute(
                         builder: (context) {
-                          return RegisterScreen();
+                          return const RegisterScreen();
                         },
                       ));
                     },
@@ -164,8 +172,21 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: 265.0,
               ),
               GestureDetector(
-                onTap: () {
+                onTap: () async {
                   // 로그인 logic
+                  String accessToken = await HttpRequestUtil.loginUser(
+                      widget.email, widget.password);
+                  if (accessToken != '') {
+                    final prefs = await SharedPreferences.getInstance();
+                    await prefs.setBool('isLoggedIn', true);
+                    global.setDeviceToken(accessToken);
+
+                    Navigator.push(context, MaterialPageRoute(
+                      builder: (context) {
+                        return const HomeScreen();
+                      },
+                    ));
+                  }
                 },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10.0),

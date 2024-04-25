@@ -4,18 +4,17 @@ import 'package:flutter/material.dart';
 class IntroductionOfPage extends StatelessWidget {
   final String introTitle;
   final String introSubTitle;
-  final String buttonText;
 
-  const IntroductionOfPage(
-      {super.key,
-      required this.introTitle,
-      required this.introSubTitle,
-      required this.buttonText});
+  const IntroductionOfPage({
+    super.key,
+    required this.introTitle,
+    required this.introSubTitle,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(20.0, 35.0, 25.0, 18.0),
+      padding: const EdgeInsets.fromLTRB(12.0, 35.0, 10.0, 18.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -42,8 +41,7 @@ class IntroductionOfPage extends StatelessWidget {
                     color: Color(0xff898585)),
               )
             ],
-          ),
-          IntroButton(buttonText: buttonText)
+          )
         ],
       ),
     );

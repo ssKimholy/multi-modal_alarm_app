@@ -75,7 +75,7 @@ class FriendAlarmPage extends StatelessWidget {
                   final alarms = data
                       .map((e) => Alarm(
                           alarmName: e["alarmName"],
-                          alarmPeriod: ["MON"],
+                          alarmPeriod: e["days"].replaceAll(' ', '').split(','),
                           alarmId: e["alarmId"],
                           alarmTime: e["time"],
                           isNew: false,
@@ -83,6 +83,8 @@ class FriendAlarmPage extends StatelessWidget {
                           isActive: false,
                           profile: Profile(e["senderName"], "")))
                       .toList();
+
+                  alarms.sort((a, b) => a.alarmTime.compareTo(b.alarmTime));
 
                   return ListView.builder(
                     itemCount: alarms.length,

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:alarm_app/utils/date_time_util.dart';
 import 'package:alarm_app/utils/http_request_util.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -10,8 +11,9 @@ import '../models/alarm.dart';
 
 class AlarmCard extends StatelessWidget {
   final Alarm alarm;
+  final AudioPlayer _audioPlayer = AudioPlayer();
 
-  const AlarmCard({
+  AlarmCard({
     Key? key,
     required this.alarm,
   }) : super(key: key);
@@ -74,7 +76,8 @@ class AlarmCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () async {
-        await HttpRequestUtil.getAlarmVoice(alarm.alarmId);
+        String filePath = await HttpRequestUtil.getAlarmVoice(alarm.alarmId);
+        _audioPlayer.play(UrlSource(filePath));
       },
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 15),

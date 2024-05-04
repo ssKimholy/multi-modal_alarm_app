@@ -96,7 +96,7 @@ class HttpRequestUtil {
     );
 
     if (response.statusCode == 200 || response.statusCode == 201) {
-      final data = jsonDecode(response.body);
+      final data = jsonDecode(utf8.decode(response.bodyBytes));
       print(data);
       return data;
     } else {
@@ -112,7 +112,7 @@ class HttpRequestUtil {
     );
 
     if (response.statusCode == 200 || response.statusCode == 201) {
-      final data = jsonDecode(response.body);
+      final data = jsonDecode(utf8.decode(response.bodyBytes));
       print('friends $data');
       return data;
     } else {
@@ -127,7 +127,7 @@ class HttpRequestUtil {
     );
 
     if (response.statusCode == 200) {
-      final data = jsonDecode(response.body);
+      final data = jsonDecode(utf8.decode(response.bodyBytes));
       return data;
     } else {
       print('hhe ${response.statusCode}');
@@ -162,7 +162,7 @@ class HttpRequestUtil {
     print(alarm.alarmTime);
     var dio = Dio();
     var formData = FormData.fromMap({
-      'alarmName': Uri.encodeComponent(alarm.alarmName),
+      'alarmName': alarm.alarmName,
       'days': alarm.alarmPeriod,
       'receiverId': takerId,
       'memberId': giverId,
@@ -182,7 +182,7 @@ class HttpRequestUtil {
     }
   }
 
-  static Future<void> getAlarmVoice(int alarmId) async {
+  static Future<String> getAlarmVoice(int alarmId) async {
     Directory directory = await getApplicationDocumentsDirectory();
     final String filePath = '${directory.path}/$alarmId.acc';
     final File file = File(filePath);
@@ -200,7 +200,9 @@ class HttpRequestUtil {
       }
     }
 
-    await _audioPlayer.play(UrlSource(filePath));
+    return filePath;
+
+    // await _audioPlayer.play(UrlSource(filePath));
 
     // if (response.statusCode == 200) {
 
@@ -209,6 +211,10 @@ class HttpRequestUtil {
     //   print('hhe ${response.statusCode}');
     //   throw Exception('Failed to load voice');
     // }
+  }
+
+  static void setStopAlarmVoice() async {
+    await _audioPlayer.stop();
   }
 
   // 알람 정보 가져오기
@@ -220,9 +226,22 @@ class HttpRequestUtil {
     print('middle of the alarm info get');
 
     if (response.statusCode == 200) {
-      final data = jsonDecode(response.body);
+      final data = jsonDecode(utf8.decode(response.bodyBytes));
       print('http ok $data');
       return data;
+    } else {
+      print('hhe ${response.statusCode}');
+      throw Exception('Failed to load alarm info');
+    }
+  }
+
+  static Future<void> setAlarmCheck(int alarmId) async {
+    final response = await http.get(
+      Uri.parse('$URL/api/mvp/user/alarm/success/$alarmId'),
+    );
+
+    if (response.statusCode == 200) {
+      print('http ok');
     } else {
       print('hhe ${response.statusCode}');
       throw Exception('Failed to load alarm info');

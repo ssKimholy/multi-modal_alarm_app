@@ -1,4 +1,5 @@
 import 'package:alarm_app/main.dart';
+import 'package:alarm_app/screens/esm_screen.dart';
 import 'package:alarm_app/screens/home_screen.dart';
 import 'package:alarm_app/utils/date_time_util.dart';
 import 'package:alarm_app/utils/http_request_util.dart';
@@ -134,7 +135,7 @@ class _AlarmScreenState extends State<AlarmScreen> {
                         Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
                           builder: (context) {
                             // esm 평가 페이지로 이동!
-                            return const HomeScreen();
+                            return ESMScreen();
                           },
                         ), (route) => false);
                       },
@@ -168,11 +169,11 @@ class _AlarmScreenState extends State<AlarmScreen> {
     });
   }
 
-  onClickVoiceRun(alarmId) {
-    setState(() {
-      isVoiceRun = !isVoiceRun;
-      // 녹음된 사운드 재생
-      HttpRequestUtil.getAlarmVoice(alarmId);
-    });
-  }
+  // onClickVoiceRun(alarmId) {
+  //   setState(() {
+  //     isVoiceRun = !isVoiceRun;
+  //     // 녹음된 사운드 재생
+  //     HttpRequestUtil.getAlarmVoice(alarmId);
+  //   });
+  // }
 }

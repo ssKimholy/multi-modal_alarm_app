@@ -7,7 +7,7 @@ class Alarm {
   final List<String> alarmPeriod;
   final bool isNew;
   final String settingTime;
-  final bool isActive;
+  bool isActive;
   final Profile profile;
 
   Alarm({
@@ -18,7 +18,7 @@ class Alarm {
     required this.isNew,
     required this.settingTime,
     required this.profile,
-    this.isActive = false,
+    required this.isActive,
   });
 
   String get name => alarmName;
@@ -28,4 +28,10 @@ class Alarm {
   String get time => alarmTime;
 
   List<String> get period => alarmPeriod;
+
+  bool get getIsActive => isActive;
+
+  void setIsActive(bool val) {
+    isActive = val;
+  }
 }

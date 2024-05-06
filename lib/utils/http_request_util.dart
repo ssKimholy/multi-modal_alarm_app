@@ -157,13 +157,14 @@ class HttpRequestUtil {
     }
   }
 
-  static Future<void> setAlarm(
-      Alarm alarm, String filePath, String takerId, String giverId) async {
+  static Future<void> setAlarm(Alarm alarm, String filePath, String takerId,
+      String giverId, String duration) async {
     print(alarm.alarmTime);
     var dio = Dio();
     var formData = FormData.fromMap({
       'alarmName': alarm.alarmName,
       'days': alarm.alarmPeriod,
+      'duration': duration,
       'receiverId': takerId,
       'memberId': giverId,
       'time': alarm.alarmTime.split(' ')[1],
@@ -245,6 +246,48 @@ class HttpRequestUtil {
     } else {
       print('hhe ${response.statusCode}');
       throw Exception('Failed to load alarm info');
+    }
+  }
+
+  static Future<void> setEsmAnswer(
+      int alarmId, String answer1, String answer2, String answer3) async {
+    print(
+        'alarmId: $alarmId, answer1: $answer1, answer2: $answer2, answer3: $answer3');
+
+    var dio = Dio();
+    var formData = FormData.fromMap({
+      'alarmId': alarmId,
+      'phq1': answer1,
+      'phq2': answer2,
+      'phq3': answer3,
+    });
+
+    final response = await dio.post('$URL/api/esm/$alarmId', data: formData);
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      print(response.data);
+    } else {
+      print(response.statusCode);
+      throw Exception('Failed to set esm answer');
+    }
+  }
+
+  static Future<void> setIsActiveAlarm(int alarmId) async {
+    final response = await http.post(
+      Uri.parse('$URL/api/mvp/user/alarm/isActive/$alarmId'),
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode({
+        'alarmId': alarmId,
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      print(response.body);
+    } else {
+      print(response.statusCode);
+      throw Exception('Failed to set isActive alarm');
     }
   }
 }

@@ -214,18 +214,19 @@ class _AlarmSettingScreenState extends State<AlarmSettingScreen> {
               onTap: () {
                 // alarm setting logic
                 HttpRequestUtil.setAlarm(
-                  Alarm(
-                      alarmName: widget.alarmName,
-                      alarmTime: widget.alarmTime,
-                      alarmId: 0,
-                      alarmPeriod: widget.alarmPeriod,
-                      isNew: false,
-                      settingTime: DateTimeUtils.formatCurrentTime(),
-                      profile: Profile(global.getUserName, '')),
-                  _recordedFilePath!,
-                  widget.takerId,
-                  global.getUserId,
-                );
+                    Alarm(
+                        alarmName: widget.alarmName,
+                        alarmTime: widget.alarmTime,
+                        alarmId: 0,
+                        alarmPeriod: widget.alarmPeriod,
+                        isNew: false,
+                        isActive: true,
+                        settingTime: DateTimeUtils.formatCurrentTime(),
+                        profile: Profile(global.getUserName, '')),
+                    _recordedFilePath!,
+                    widget.takerId,
+                    global.getUserId,
+                    '${widget.duration?.inMinutes.remainder(60).toString().padLeft(2, '0')}:${(widget.duration?.inSeconds.remainder(60)).toString().padLeft(2, '0')}');
                 Navigator.pop(context);
               },
               child: Container(

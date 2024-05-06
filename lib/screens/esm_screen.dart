@@ -253,8 +253,16 @@ class _ESMScreenState extends State<ESMScreen> {
               height: 100.0,
             ),
             GestureDetector(
-              onTap: () {
+              onTap: () async {
                 if (!widget.answers.contains(-1)) {
+                  final prefs = await SharedPreferences.getInstance();
+
+                  await HttpRequestUtil.setEsmAnswer(
+                      prefs.getInt('alarmId')!,
+                      '${widget.answers[0]}',
+                      '${widget.answers[1]}',
+                      '${widget.answers[2]}');
+
                   Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
                     builder: (context) {
                       return const HomeScreen();

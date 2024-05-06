@@ -56,7 +56,7 @@ class FriendAlarmPage extends StatelessWidget {
         children: [
           const IntroductionOfPage(
             introTitle: '알람 목록',
-            introSubTitle: '알람을 클릭하여 음성을 들어보세요.',
+            introSubTitle: '알람 시간을 클릭하여 음성을 들어보세요.',
           ),
           Expanded(
             child: FutureBuilder<List<dynamic>>(
@@ -80,7 +80,7 @@ class FriendAlarmPage extends StatelessWidget {
                           alarmTime: e["time"],
                           isNew: false,
                           settingTime: DateTimeUtils.formatCurrentTime(),
-                          isActive: false,
+                          isActive: e["active"],
                           profile: Profile(e["senderName"], "")))
                       .toList();
 

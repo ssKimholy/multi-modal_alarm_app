@@ -15,7 +15,7 @@ class AlarmNameInput extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
-            '알람 이름',
+            'Alarm name',
             style: TextStyle(
               color: Colors.black,
               fontFamily: 'Noto_Sans_KR',
@@ -42,7 +42,8 @@ class AlarmNameInput extends StatelessWidget {
                   width: 1.0,
                 ),
               ),
-              hintText: '상대에게 보여줄 알람의 이름을 작성하세요.',
+              // hintText: '상대에게 보여줄 알람의 이름을 작성하세요.',
+              hintText: 'Write the Name of the Alarm to Show Your Peer.',
               hintStyle: TextStyle(
                   color: const Color(0xff898585).withOpacity(0.6),
                   fontFamily: 'Noto_Sans_KR',

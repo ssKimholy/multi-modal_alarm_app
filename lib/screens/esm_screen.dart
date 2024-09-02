@@ -138,7 +138,9 @@ class _ESMScreenState extends State<ESMScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text('녹음된 소리 재생',
+                  const Text(
+                      // '녹음된 소리 재생',
+                      'Play Recorded Sound',
                       style: TextStyle(
                           fontFamily: 'Noto_Sans_KR',
                           fontSize: 20,
@@ -166,7 +168,7 @@ class _ESMScreenState extends State<ESMScreen> {
               height: 40.0,
             ),
             const Text(
-              '녹음된 음성을 듣고 난 직후 답변해 주세요.',
+              'Please Respond with Your Emotions Immediately After Listening to the Recorded Voice.',
               style: TextStyle(
                   color: Colors.white,
                   fontFamily: 'Noto_Sans',
@@ -180,7 +182,9 @@ class _ESMScreenState extends State<ESMScreen> {
               child: ListView(
                 children: [
                   const Center(
-                    child: Text('기분이 가라앉거나, 우울하거나, 희망이 없다고 느꼈다.',
+                    child: Text(
+                        // '기분이 가라앉거나, 우울하거나, 희망이 없다고 느꼈다.\n(0:전혀 아니다. 3: 매우 그렇다.)',
+                        'Feeling down, depressed, or hopeless\n(0:strongly disagree, 3: strongly agree)',
                         style: TextStyle(
                             color: Colors.white,
                             fontFamily: 'Noto_Sans_KR',
@@ -193,17 +197,19 @@ class _ESMScreenState extends State<ESMScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      checkButton('전혀 없음', 0, 0),
-                      checkButton('몇 시간 동안', 1, 0),
-                      checkButton('하루의 절반 이상', 2, 0),
-                      checkButton('거의 하루 종일', 3, 0),
+                      checkButton('0', 0, 0),
+                      checkButton('1', 1, 0),
+                      checkButton('2', 2, 0),
+                      checkButton('3', 3, 0),
                     ],
                   ),
                   const SizedBox(
                     height: 50.0,
                   ),
                   const Center(
-                    child: Text('평소 하던 일에 대한 흥미가 없어지거나 즐거움을 느끼지 못했다.',
+                    child: Text(
+                        // '평소 하던 일에 대한 흥미가 없어지거나 즐거움을 느끼지 못했다.\n(0:전혀 아니다. 3: 매우 그렇다.)',
+                        'Little interest or pleasure in doing things\n(0:strongly disagree, 3: strongly agree)',
                         style: TextStyle(
                             color: Colors.white,
                             fontFamily: 'Noto_Sans_KR',
@@ -216,17 +222,17 @@ class _ESMScreenState extends State<ESMScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      checkButton('전혀 없음', 0, 1),
-                      checkButton('몇 시간 동안', 1, 1),
-                      checkButton('하루의 절반 이상', 2, 1),
-                      checkButton('거의 하루 종일', 3, 1),
+                      checkButton('0', 0, 1),
+                      checkButton('1', 1, 1),
+                      checkButton('2', 2, 1),
+                      checkButton('3', 3, 1),
                     ],
                   ),
                   const SizedBox(
                     height: 50.0,
                   ),
                   const Center(
-                    child: Text('상대방이 나를 챙겨준다는 느낌을 받았다.',
+                    child: Text('I felt like my peer was taking care of me.',
                         style: TextStyle(
                             color: Colors.white,
                             fontFamily: 'Noto_Sans_KR',
@@ -239,11 +245,10 @@ class _ESMScreenState extends State<ESMScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      checkButton('전혀 그렇지 않다\n', 1, 2),
-                      checkButton('그렇지 않다\n', 2, 2),
-                      checkButton('보통이다\n', 3, 2),
-                      checkButton('그렇다\n', 4, 2),
-                      checkButton('매우 그렇다\n', 5, 2),
+                      checkButton('strongly disagree\n', 1, 2),
+                      checkButton('disagree\n', 2, 2),
+                      checkButton('agree\n', 3, 2),
+                      checkButton('strongly agree\n', 4, 2),
                     ],
                   ),
                 ],
@@ -278,7 +283,7 @@ class _ESMScreenState extends State<ESMScreen> {
                   color: const Color(0xff3AD277),
                 ),
                 child: const Text(
-                  '확인',
+                  'Submit',
                   style: TextStyle(
                       fontFamily: 'Noto_Sans_KR',
                       fontSize: 24,

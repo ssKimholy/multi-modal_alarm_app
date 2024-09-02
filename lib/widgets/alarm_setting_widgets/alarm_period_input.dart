@@ -16,7 +16,7 @@ class AlarmPeriodInput extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
-            '알람을 반복할 요일',
+            'Repeat Days',
             style: TextStyle(
               color: Colors.black,
               fontFamily: 'Noto_Sans_KR',

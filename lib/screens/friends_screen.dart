@@ -45,7 +45,8 @@ class _FriendScreenState extends State<FriendScreen> {
 
     return Scaffold(
       appBar: const CustomAppBar(
-        title: '친구 목록',
+        // title: '친구 목록',
+        title: 'Friends List',
         marginVar: 58.0,
       ),
       bottomNavigationBar: const CustomBottomNavBar(),
@@ -54,10 +55,10 @@ class _FriendScreenState extends State<FriendScreen> {
           const Row(
             children: [
               IntroductionOfPage(
-                introTitle: '친구에게 알람 설정',
-                introSubTitle: '알람을 맞춰주고 싶은 친구를 선택해 추가하세요.',
+                introTitle: 'Alarm Setting',
+                introSubTitle: 'set an alarm for your friend.',
               ),
-              IntroButton(buttonText: '친구 추가'),
+              IntroButton(buttonText: 'add friend'),
             ],
           ),
           Expanded(
@@ -87,7 +88,8 @@ class _FriendScreenState extends State<FriendScreen> {
                         padding: EdgeInsets.symmetric(vertical: 20),
                         child: Center(
                             child: Text(
-                          '즐겨찾기에 추가된 친구가 없습니다.',
+                          // '즐겨찾기에 추가된 친구가 없습니다.',
+                          '',
                           style: TextStyle(
                               fontFamily: 'Noto_Sans_KR',
                               fontSize: 12,
@@ -102,7 +104,7 @@ class _FriendScreenState extends State<FriendScreen> {
                       Image.asset('assets/images/png/friends.png'),
                       const SizedBox(width: 5.0),
                       const Text(
-                        '전체 친구',
+                        'List',
                         style: TextStyle(
                           color: Colors.black,
                           fontFamily: 'Noto_Sans_KR',

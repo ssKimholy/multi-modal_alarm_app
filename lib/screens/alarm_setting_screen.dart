@@ -171,7 +171,8 @@ class _AlarmSettingScreenState extends State<AlarmSettingScreen> {
                 },
               ),
               Text(
-                '${widget.takerName}님에게 알람 설정',
+                // '${widget.takerName}님에게 알람 설정',
+                'Alarm for ${widget.takerName}',
                 style: const TextStyle(
                     color: Colors.black,
                     fontFamily: 'Noto_Sans_KR',
@@ -236,7 +237,8 @@ class _AlarmSettingScreenState extends State<AlarmSettingScreen> {
                     color: const Color(0xff3AD277),
                     borderRadius: BorderRadius.circular(10.0)),
                 child: Text(
-                  '완료',
+                  // '완료',
+                  'Complete',
                   style: TextStyle(
                       color: Colors.white.withOpacity(0.9),
                       fontFamily: 'Noto_Sans_KR',

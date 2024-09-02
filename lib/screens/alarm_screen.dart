@@ -51,7 +51,8 @@ class _AlarmScreenState extends State<AlarmScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.black,
-        body: SizedBox(
+        body: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 10.0),
           width: double.infinity,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -63,9 +64,9 @@ class _AlarmScreenState extends State<AlarmScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Text(
-                    currentTime.substring(0, 2),
-                    style: const TextStyle(
+                  const Text(
+                    'PM',
+                    style: TextStyle(
                         fontFamily: 'Noto_Sans_KR',
                         fontSize: 26,
                         fontWeight: FontWeight.w600,
@@ -96,9 +97,10 @@ class _AlarmScreenState extends State<AlarmScreen> {
                     final alarmInfo = snapshot.data!;
                     return Text(
                       alarmInfo["alarmName"],
+                      textAlign: TextAlign.center,
                       style: const TextStyle(
                           fontFamily: 'Noto_Sans_KR',
-                          fontSize: 40,
+                          fontSize: 30,
                           fontWeight: FontWeight.w600,
                           color: Colors.white),
                     );
@@ -147,7 +149,7 @@ class _AlarmScreenState extends State<AlarmScreen> {
                           color: const Color(0xff3AD277),
                         ),
                         child: const Text(
-                          '확인',
+                          'OK',
                           style: TextStyle(
                               fontFamily: 'Noto_Sans_KR',
                               fontSize: 24,

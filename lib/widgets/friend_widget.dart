@@ -109,7 +109,7 @@ class _FriendWidgetState extends State<FriendWidget> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          '설정한 알람',
+                          'Show Alarm List',
                           style: TextStyle(
                               color: Color(0xff3AD277),
                               fontFamily: 'Noto_Sans_KR',
@@ -150,10 +150,10 @@ class _FriendWidgetState extends State<FriendWidget> {
                         child: Row(
                           children: [
                             const Text(
-                              '알람 설정',
+                              'Alarm Setting',
                               style: TextStyle(
                                   fontFamily: 'Noto_Sans_KR',
-                                  fontSize: 15,
+                                  fontSize: 14,
                                   fontWeight: FontWeight.w500,
                                   color: Colors.black),
                             ),

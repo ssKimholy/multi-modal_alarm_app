@@ -93,81 +93,85 @@ class _RegisterScreenState extends State<RegisterScreen> {
           ],
         ),
       ),
-      body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 50.0),
-          child: Column(
-            children: [
-              UserInputWidget(
-                  controller: emailController,
-                  description: '이메일',
-                  hintText: '이메일 입력',
-                  onText: (text) => setEmail(text, global)),
-              const SizedBox(
-                height: 35.0,
-              ),
-              UserInputWidget(
-                  controller: passwordController,
-                  description: '비밀번호',
-                  hintText: '비밀번호 입력',
-                  onText: (text) => setPassword(text, global)),
-              const SizedBox(
-                height: 35.0,
-              ),
-              UserInputWidget(
-                  controller: nicknameController,
-                  description: '닉네임',
-                  hintText: '닉네임 입력',
-                  onText: (text) => setNickname(text, global)),
-              const SizedBox(
-                height: 35.0,
-              ),
-              UserInputWidget(
-                  controller: phoneNumberController,
-                  description: '전화번호',
-                  hintText: '전화번호 입력',
-                  onText: (text) => setPhoneNumber(text, global)),
-              const SizedBox(
-                height: 90.0,
-              ),
-              GestureDetector(
-                onTap: () async {
-                  print('touch ${global.getDeviceToken}');
+      body: SingleChildScrollView(
+        child: Padding(
+            padding:
+                const EdgeInsets.symmetric(horizontal: 30.0, vertical: 50.0),
+            child: Column(
+              children: [
+                UserInputWidget(
+                    controller: emailController,
+                    description: '이메일',
+                    hintText: '이메일 입력',
+                    onText: (text) => setEmail(text, global)),
+                const SizedBox(
+                  height: 35.0,
+                ),
+                UserInputWidget(
+                    controller: passwordController,
+                    description: '비밀번호',
+                    hintText: '비밀번호 입력',
+                    onText: (text) => setPassword(text, global)),
+                const SizedBox(
+                  height: 35.0,
+                ),
+                UserInputWidget(
+                    controller: nicknameController,
+                    description: '닉네임',
+                    hintText: '닉네임 입력',
+                    onText: (text) => setNickname(text, global)),
+                const SizedBox(
+                  height: 35.0,
+                ),
+                UserInputWidget(
+                    controller: phoneNumberController,
+                    description: '전화번호',
+                    hintText: '전화번호 입력',
+                    onText: (text) => setPhoneNumber(text, global)),
+                const SizedBox(
+                  height: 90.0,
+                ),
+                GestureDetector(
+                  onTap: () async {
+                    print('touch ${global.getDeviceToken}');
 
-                  final prefs = await SharedPreferences.getInstance();
-                  await prefs.setString('phone-num', global.getUserPhoneNumber);
-                  // 회원가입 logic
-                  HttpRequestUtil.registerUser(
-                      global.getUserId,
-                      global.getUserPw,
-                      global.getUserName,
-                      global.getUserPhoneNumber,
-                      global.getDeviceToken);
+                    final prefs = await SharedPreferences.getInstance();
+                    await prefs.setString(
+                        'phone-num', global.getUserPhoneNumber);
+                    // 회원가입 logic
+                    HttpRequestUtil.registerUser(
+                        global.getUserId,
+                        global.getUserPw,
+                        global.getUserName,
+                        global.getUserPhoneNumber,
+                        global.getDeviceToken);
 
-                  Navigator.pop(context);
-                },
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                  child: Container(
-                    width: double.infinity,
-                    height: 42.0,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(16.0),
-                      color: const Color(0xff3AD277),
-                    ),
-                    child: const Text(
-                      '회원가입',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'Noto_Sans_KR',
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600),
+                    Navigator.pop(context);
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                    child: Container(
+                      width: double.infinity,
+                      height: 42.0,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16.0),
+                        color: const Color(0xff3AD277),
+                      ),
+                      child: const Text(
+                        '회원가입',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: 'Noto_Sans_KR',
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600),
+                      ),
                     ),
                   ),
-                ),
-              )
-            ],
-          )),
+                )
+              ],
+            )),
+      ),
     );
   }
 }

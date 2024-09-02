@@ -45,15 +45,23 @@ class _HomeScreenState extends State<HomeScreen> {
     getMyDeviceToken();
     FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
       RemoteNotification? notification = message.notification;
-
+      Map<String, dynamic> data = message.data;
       // _AndroidMethodChannel androidMethodChannel = _AndroidMethodChannel();
       // await androidMethodChannel.setNativeAlarm();
+
+      final alarmInfo =
+          await HttpRequestUtil.getAlarmInfo(message.data["alarmId"]);
+
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setInt('alarmId', int.parse(message.data["alarmId"]));
+      await prefs.setString('alarmName', alarmInfo["alarmName"]);
+      await prefs.setString('friendName', alarmInfo["member"]["memberName"]);
 
       if (notification != null) {
         FlutterLocalNotificationsPlugin().show(
           notification.hashCode,
-          notification.title,
-          notification.body,
+          alarmInfo["alarmName"],
+          '${alarmInfo["member"]["memberName"]}님이 설정한 알람 시각이 되었습니다.',
           const NotificationDetails(
             android: AndroidNotificationDetails(
               'high_importance_channel',
@@ -83,7 +91,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final List<Widget> _pages = [
     const AlarmPageScreen(),
     const FriendScreen(),
-    const HistoryScreen(),
+    // const HistoryScreen(),
   ];
 
   @override

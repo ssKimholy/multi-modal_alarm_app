@@ -15,7 +15,7 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
   Widget build(BuildContext context) {
     final global = Provider.of<GlobalVar>(context);
 
-    void _onItemTapped(int index) {
+    void onItemTapped(int index) {
       setState(() {
         global.setIndex(index);
       });
@@ -32,7 +32,7 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
       backgroundColor: Colors.white,
       showSelectedLabels: true,
       showUnselectedLabels: false,
-      onTap: _onItemTapped,
+      onTap: onItemTapped,
       items: <BottomNavigationBarItem>[
         BottomNavigationBarItem(
           icon: Padding(
@@ -58,18 +58,18 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
           ),
           label: '친구',
         ),
-        BottomNavigationBarItem(
-          icon: Padding(
-            padding: const EdgeInsets.only(bottom: 3.0),
-            child: SvgPicture.asset(
-              'assets/images/svg/history_icon.svg',
-              width: 28,
-              height: 28,
-              color: global.getIndex == 2 ? const Color(0xff3AD277) : null,
-            ),
-          ),
-          label: '기록',
-        ),
+        // BottomNavigationBarItem(
+        //   icon: Padding(
+        //     padding: const EdgeInsets.only(bottom: 3.0),
+        //     child: SvgPicture.asset(
+        //       'assets/images/svg/history_icon.svg',
+        //       width: 28,
+        //       height: 28,
+        //       color: global.getIndex == 2 ? const Color(0xff3AD277) : null,
+        //     ),
+        //   ),
+        //   label: '기록',
+        // ),
       ],
     );
   }

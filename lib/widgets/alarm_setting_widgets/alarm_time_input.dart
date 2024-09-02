@@ -23,7 +23,8 @@ class AlarmTimeInput extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text(
-              '알람이 울릴 시간',
+              // '알람이 울릴 시간',
+              'Time for the Alarm',
               style: TextStyle(
                 color: Colors.black,
                 fontFamily: 'Noto_Sans_KR',

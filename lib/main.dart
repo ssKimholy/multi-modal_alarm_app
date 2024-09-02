@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:alarm_app/firebase_options.dart';
 import 'package:alarm_app/screens/alarm_screen.dart';
 import 'package:alarm_app/screens/home_screen.dart';
@@ -21,6 +23,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 final flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
+@pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   print('back start');
   // print("백그라운드 메시지 처리.. ${message.notification!.body!}");
@@ -35,7 +38,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setInt('alarmId', int.parse(message.data["alarmId"]));
     await prefs.setString('alarmName', alarmInfo["alarmName"]);
-    await prefs.setString('friendName', alarmInfo["friend"]["member"]);
+    await prefs.setString('friendName', alarmInfo["member"]["memberName"]);
 
     await showNotification(message);
   } catch (e) {
@@ -151,7 +154,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => const SplashScreen(),
-        '/alarmPage': (context) => AlarmScreen(),
+        '/alarmPage': (context) => const AlarmScreen(),
       },
     );
   }

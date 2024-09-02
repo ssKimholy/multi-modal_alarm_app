@@ -171,7 +171,8 @@ class _AlarmSettingScreenState extends State<AlarmSettingScreen> {
                 },
               ),
               Text(
-                '${widget.takerName}님에게 알람 설정',
+                // '${widget.takerName}님에게 알람 설정',
+                'Alarm for ${widget.takerName}',
                 style: const TextStyle(
                     color: Colors.black,
                     fontFamily: 'Noto_Sans_KR',
@@ -214,18 +215,19 @@ class _AlarmSettingScreenState extends State<AlarmSettingScreen> {
               onTap: () {
                 // alarm setting logic
                 HttpRequestUtil.setAlarm(
-                  Alarm(
-                      alarmName: widget.alarmName,
-                      alarmTime: widget.alarmTime,
-                      alarmId: 0,
-                      alarmPeriod: widget.alarmPeriod,
-                      isNew: false,
-                      settingTime: DateTimeUtils.formatCurrentTime(),
-                      profile: Profile(global.getUserName, '')),
-                  _recordedFilePath!,
-                  widget.takerId,
-                  global.getUserId,
-                );
+                    Alarm(
+                        alarmName: widget.alarmName,
+                        alarmTime: widget.alarmTime,
+                        alarmId: 0,
+                        alarmPeriod: widget.alarmPeriod,
+                        isNew: false,
+                        isActive: true,
+                        settingTime: DateTimeUtils.formatCurrentTime(),
+                        profile: Profile(global.getUserName, '')),
+                    _recordedFilePath!,
+                    widget.takerId,
+                    global.getUserId,
+                    '${widget.duration?.inMinutes.remainder(60).toString().padLeft(2, '0')}:${(widget.duration?.inSeconds.remainder(60)).toString().padLeft(2, '0')}');
                 Navigator.pop(context);
               },
               child: Container(
@@ -235,7 +237,8 @@ class _AlarmSettingScreenState extends State<AlarmSettingScreen> {
                     color: const Color(0xff3AD277),
                     borderRadius: BorderRadius.circular(10.0)),
                 child: Text(
-                  '완료',
+                  // '완료',
+                  'Complete',
                   style: TextStyle(
                       color: Colors.white.withOpacity(0.9),
                       fontFamily: 'Noto_Sans_KR',

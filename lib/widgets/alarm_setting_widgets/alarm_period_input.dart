@@ -16,7 +16,7 @@ class AlarmPeriodInput extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
-            '알람을 반복할 요일',
+            'Repeat Days',
             style: TextStyle(
               color: Colors.black,
               fontFamily: 'Noto_Sans_KR',
@@ -59,11 +59,11 @@ class AlarmPeriodInput extends StatelessWidget {
                     ),
                     GestureDetector(
                       onTap: () {
-                        setAlarmPeriod('TUE');
+                        setAlarmPeriod('TUES');
                       },
                       child: Container(
                         decoration: BoxDecoration(
-                          color: alarmPeriod.contains('TUE')
+                          color: alarmPeriod.contains('TUES')
                               ? const Color(0xff3AD277).withOpacity(0.5)
                               : const Color(0xff898585).withOpacity(0.2),
                           borderRadius: BorderRadius.circular(7.0),

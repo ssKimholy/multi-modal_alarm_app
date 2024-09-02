@@ -1,4 +1,5 @@
 import 'package:alarm_app/main.dart';
+import 'package:alarm_app/screens/esm_screen.dart';
 import 'package:alarm_app/screens/home_screen.dart';
 import 'package:alarm_app/utils/date_time_util.dart';
 import 'package:alarm_app/utils/http_request_util.dart';
@@ -50,7 +51,8 @@ class _AlarmScreenState extends State<AlarmScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.black,
-        body: SizedBox(
+        body: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 10.0),
           width: double.infinity,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -62,9 +64,9 @@ class _AlarmScreenState extends State<AlarmScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Text(
-                    currentTime.substring(0, 2),
-                    style: const TextStyle(
+                  const Text(
+                    'PM',
+                    style: TextStyle(
                         fontFamily: 'Noto_Sans_KR',
                         fontSize: 26,
                         fontWeight: FontWeight.w600,
@@ -95,9 +97,10 @@ class _AlarmScreenState extends State<AlarmScreen> {
                     final alarmInfo = snapshot.data!;
                     return Text(
                       alarmInfo["alarmName"],
+                      textAlign: TextAlign.center,
                       style: const TextStyle(
                           fontFamily: 'Noto_Sans_KR',
-                          fontSize: 40,
+                          fontSize: 30,
                           fontWeight: FontWeight.w600,
                           color: Colors.white),
                     );
@@ -134,7 +137,7 @@ class _AlarmScreenState extends State<AlarmScreen> {
                         Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
                           builder: (context) {
                             // esm 평가 페이지로 이동!
-                            return const HomeScreen();
+                            return ESMScreen();
                           },
                         ), (route) => false);
                       },
@@ -146,7 +149,7 @@ class _AlarmScreenState extends State<AlarmScreen> {
                           color: const Color(0xff3AD277),
                         ),
                         child: const Text(
-                          '확인',
+                          'OK',
                           style: TextStyle(
                               fontFamily: 'Noto_Sans_KR',
                               fontSize: 24,
@@ -168,11 +171,11 @@ class _AlarmScreenState extends State<AlarmScreen> {
     });
   }
 
-  onClickVoiceRun(alarmId) {
-    setState(() {
-      isVoiceRun = !isVoiceRun;
-      // 녹음된 사운드 재생
-      HttpRequestUtil.getAlarmVoice(alarmId);
-    });
-  }
+  // onClickVoiceRun(alarmId) {
+  //   setState(() {
+  //     isVoiceRun = !isVoiceRun;
+  //     // 녹음된 사운드 재생
+  //     HttpRequestUtil.getAlarmVoice(alarmId);
+  //   });
+  // }
 }

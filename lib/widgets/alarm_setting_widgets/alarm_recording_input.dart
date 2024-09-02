@@ -29,11 +29,12 @@ class AlarmRecordingInput extends StatelessWidget {
       child: Column(
         children: [
           const Text(
-            '당신의 목소리로 알람음을 설정해주세요.',
+            // '당신의 목소리로 알람음을 설정해주세요.',
+            'Set the Alarm Sound with Your Voice.',
             style: TextStyle(
               color: Colors.black,
               fontFamily: 'Noto_Sans_KR',
-              fontSize: 18,
+              fontSize: 16,
               fontWeight: FontWeight.w600,
             ),
           ),
